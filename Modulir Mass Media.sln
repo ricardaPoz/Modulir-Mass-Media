@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modulir Mass Media", "Modulir Mass Media\Modulir Mass Media.csproj", "{D7302881-0657-4AB3-AD69-E112776DADDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7302881-0657-4AB3-AD69-E112776DADDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7302881-0657-4AB3-AD69-E112776DADDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7302881-0657-4AB3-AD69-E112776DADDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7302881-0657-4AB3-AD69-E112776DADDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D178AC4-5651-4B91-A263-BF8753730DE4}
+	EndGlobalSection
+EndGlobal
