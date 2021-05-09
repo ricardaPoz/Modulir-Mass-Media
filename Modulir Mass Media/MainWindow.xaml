@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modulir_Mass_Media" 
-        xmlns:local1="clr-namespace:Modulir_Mass_Media.Classes"
+        xmlns:local1="clr-namespace:Modulir_Mass_Media.Classes" 
+        xmlns:local2="clr-namespace:Modulir_Mass_Media.Helpers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="882">
+        Title="MainWindow" Height="450" Width="882" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -17,6 +19,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <local2:ClippingBorder x:Key="RadiusImage" CornerRadius="4">
+            <Image Stretch="UniformToFill"/>
+        </local2:ClippingBorder>
+
+
+
+
         <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
         <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
         <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
@@ -67,6 +76,12 @@
         <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
         <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <Style x:Key="SansBold">
+            <Setter Property="TextElement.FontFamily" Value="icons\PTSans-Italic.ttf"/>
+        </Style>
+        <Style x:Key="SansRegular">
+            <Setter Property="TextElement.FontFamily" Value="\icons\ptsans-regular.ttf"/>
+        </Style>
     </Window.Resources>
     <Window.DataContext>
         <local1:ModulationMediaWork/>
@@ -81,35 +96,34 @@
                     <ListView Background="#F5F5F5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding MassMediaInformationProducts}">
                         <ListView.ItemTemplate  >
                             <DataTemplate>
-                                <Grid Background="#FFFFFF" Margin="10 10 0 10">
-                                    
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2.5*"/>
-                                        <ColumnDefinition Width="7.5*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image  Margin="10 10 10 10" Stretch="Uniform" Source="pack://application:,,,/Modulir Mass Media;component/Icons/1.png"/>
-
-                                    <Grid Height="auto" Grid.Column="1" Margin="0 0 0 10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Width="auto" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
-                                            <TextBlock Width="auto"  Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0"  Text="{Binding DatePublication}"/>
+                                <Border Background="White" CornerRadius="5" Margin="10">
+                                    <Grid Background="#FFFFFF" Margin="10 10 0 10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="7.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image  Margin="10 10 10 10" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
+                                        <Grid Height="auto" Grid.Column="1" Margin="0 0 0 10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1.5*"/>
+                                                    <ColumnDefinition Width="8.5*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
+                                                <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0"  Text="{Binding DatePublication}"/>
+                                            </Grid>
+                                            <TextBlock Style="{DynamicResource SansBold}" Height="auto" TextWrapping="Wrap" FontWeight="Bold" FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
+                                            <TextBlock Style="{DynamicResource SansRegular}" Height="auto" TextWrapping="Wrap" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}"/>
+                                            <Button Width="300" HorizontalAlignment="Left" Height="auto" Style="{DynamicResource ButtomReadMore}" FontWeight="Bold" Background="#30A53B" Foreground="White" BorderThickness="0" FontSize="17" Grid.Row="3">Читать подробнее</Button>
                                         </Grid>
-
-                                        <TextBlock Height="auto" TextWrapping="Wrap" FontWeight="Bold" FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
-                                        <TextBlock Height="auto" TextWrapping="Wrap" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}"/>
-                                        <Button Width="300" HorizontalAlignment="Left" Height="auto" Style="{DynamicResource ButtomReadMore}" FontWeight="Bold" Background="#30A53B" Foreground="White" BorderThickness="0" FontSize="17" Grid.Row="3">Читать подробнее</Button>
                                     </Grid>
-                                </Grid>
+                                </Border>
                             </DataTemplate>
 
                         </ListView.ItemTemplate>

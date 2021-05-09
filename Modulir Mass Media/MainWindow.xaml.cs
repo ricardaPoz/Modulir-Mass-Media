@@ -26,9 +26,9 @@ namespace Modulir_Mass_Media
             InitializeComponent();
             ListView ls = new ListView();
             //Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#312E2B"));
-            
-            /*    RssParser rss = new RssParser(10000);
-                rss.StartParsing();*/
+
+            //RssParser rss = new RssParser(10000);
+            //rss.StartParsing();
         }
     }
 }
