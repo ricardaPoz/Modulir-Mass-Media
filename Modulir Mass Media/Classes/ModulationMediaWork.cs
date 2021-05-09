@@ -3,9 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 using System.Timers;
-using System.Windows.Threading;
 
 namespace Modulir_Mass_Media.Classes
 {
@@ -20,13 +20,16 @@ namespace Modulir_Mass_Media.Classes
         string title = "Блинкен признал, что ряд действий США подрывали миропорядок";
         string content = "Некоторые действия властей США за последние годы подрывали «основанный на правилах порядок», заявил...";
 
+        DateTime dt = DateTime.Now;
+        
 
         public ModulationMediaWork()
         {
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), DateTime.UtcNow));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), DateTime.UtcNow));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), DateTime.UtcNow));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), DateTime.UtcNow));
+            DateTime.Now.ToString("D", CultureInfo.CreateSpecificCulture("ru-RU"));
+            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
+            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
+            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
+            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
           
         }
 
