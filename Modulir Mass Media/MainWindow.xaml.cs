@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using  Modulir_Mass_Media.Classes;
+using Modulir_Mass_Media.Classes;
+using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
 
 namespace Modulir_Mass_Media
 {
@@ -24,11 +26,29 @@ namespace Modulir_Mass_Media
         public MainWindow()
         {
             InitializeComponent();
-            ListView ls = new ListView();
             //Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#312E2B"));
-
+            /*ModulationMediaWork modulationMediaWork = new ModulationMediaWork();
+            modulationMediaWork.ModulationMedia();*/
             //RssParser rss = new RssParser(10000);
             //rss.StartParsing();
+
+
+            //var client = new YoutubeClient();
+            //var stream = client.Videos.Streams.GetManifestAsync("https://www.youtube.com/watch?v=0QQmkHlJPsQ");
+            //var streamInfo = stream.GetMuxed().WithHighestVideoQuality();
+            //media.Source = ()
+
+            /*PlayVideo();*/
+           
         }
+        /*public async void PlayVideo()
+        {
+            var youtube = new YoutubeClient();
+
+            var streamManifest = await youtube.Videos.Streams.GetManifestAsync("https://www.youtube.com/watch?v=JdfxN-2vEzE");
+            var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
+            media.Source = new Uri(streamInfo.Url);
+        }*/
     }
+  
 }

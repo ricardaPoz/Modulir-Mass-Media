@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Modulir_Mass_Media
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Логика взаимодействия для Page.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Page : Window
     {
-        public Window1()
+        public Page()
         {
             InitializeComponent();
         }

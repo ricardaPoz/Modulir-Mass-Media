@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using System.Threading;
 using System.Timers;
 
 namespace Modulir_Mass_Media.Classes
@@ -21,38 +22,45 @@ namespace Modulir_Mass_Media.Classes
         string content = "Некоторые действия властей США за последние годы подрывали «основанный на правилах порядок», заявил...   ";
 
         DateTime dt = DateTime.Now;
-        
+        Thread thread;
 
         public ModulationMediaWork()
         {
-            DateTime.Now.ToString("D", CultureInfo.CreateSpecificCulture("ru-RU"));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
-            MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
-          
+            
+            thread = new Thread(() =>
+            {
+                DateTime.Now.ToString("D", CultureInfo.CreateSpecificCulture("ru-RU"));
+                MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct("ЕС запретил полеты белорусских авиакомпаний в своем воздушном пространстве", "БРЮССЕЛЬ, 4 июня. /ТАСС/. Решение Евросоюза запретить полеты авиакомпаний Белоруссии в воздушном пространстве сообщества и посадку их самолетов в европейских аэропортах вступает в силу с 5 июня. Об этом говорится в Официальном журнале ЕС, в котором в пятницу опубликованы соответствующие нормативные акты.", "Link", "category"), dt));
+                MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
+                MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
+                MassMediaInformationProducts.Insert(0, new MassMediaInformationProduct(namesmi + "das", new InformationProduct(title, content, "Link", "category"), dt));
+            }
+            );
+            thread.Start();
         }
 
-  
 
-        Journalist Danilkin = new JournalistText("Данилкин Лев Александрович");
-        Journalist Dzyadko = new JournalistText("Дзядко Тимофей Викторович");
-        Journalist Taratuta = new JournalistText("Таратута Юлия Леонидовна");
-
-        Journalist Shmarov = new JournalistVideo("Шмаров Андрей Игоревич");
-        Journalist Simonyan = new JournalistVideo("Симоньян Маргарита Симоновна");
-
-        Journalist Venediktov = new JournalistAudio("Венедиктов Алексей Алексеевич");
-        Journalist Bershidsky = new JournalistAudio("Бершидский Леонид Давидович");
-
-
-        MassMedia vedomosti = new MassMedia("Vedomosti");
-        MassMedia tass = new MassMedia("TASS");
-        MassMedia russiaToday = new MassMedia("RT");
-        MassMedia echoMoskau = new MassMedia("Эхо Москвы");
 
         public void ModulationMedia()
         {
+
+
+            Journalist Danilkin = new JournalistText("Данилкин Лев Александрович");
+            Journalist Dzyadko = new JournalistText("Дзядко Тимофей Викторович");
+            Journalist Taratuta = new JournalistText("Таратута Юлия Леонидовна");
+
+            Journalist Shmarov = new JournalistVideo("Шмаров Андрей Игоревич");
+            Journalist Simonyan = new JournalistVideo("Симоньян Маргарита Симоновна");
+
+            Journalist Venediktov = new JournalistAudio("Венедиктов Алексей Алексеевич");
+            Journalist Bershidsky = new JournalistAudio("Бершидский Леонид Давидович");
+
+
+            MassMedia vedomosti = new MassMedia("Vedomosti");
+            MassMedia tass = new MassMedia("TASS");
+            MassMedia russiaToday = new MassMedia("RT");
+            MassMedia echoMoskau = new MassMedia("Эхо Москвы");
+
             vedomosti.HiringEmployee(Taratuta);
             vedomosti.HiringEmployee(Dzyadko);
 

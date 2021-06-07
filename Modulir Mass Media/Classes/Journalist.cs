@@ -63,7 +63,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\modulir worl smi\SMI\SMI\RssFile\rss.mdf"";Integrated Security=True;Connect Timeout=30");
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //
@@ -107,7 +107,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\modulir worl smi\SMI\SMI\RssFile\rss.mdf"";Integrated Security=True;Connect Timeout=30");
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //
@@ -152,7 +152,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\modulir worl smi\SMI\SMI\RssFile\rss.mdf"";Integrated Security=True;Connect Timeout=30");
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //

@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Modulir_Mass_Media"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="SansBold">
+            <Setter Property="TextElement.FontFamily" Value="/icons/#Yahfie Bruch"/>
+        </Style>
+        <Style x:Key="SansRegular">
+            <Setter Property="TextElement.FontFamily" Value="\icons\ptsans-regular.ttf"/>
+        </Style>
     </Application.Resources>
 </Application>

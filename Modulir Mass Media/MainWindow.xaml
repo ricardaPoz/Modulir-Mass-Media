@@ -7,142 +7,224 @@
         xmlns:local1="clr-namespace:Modulir_Mass_Media.Classes" 
         xmlns:local2="clr-namespace:Modulir_Mass_Media.Helpers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="882" WindowStartupLocation="CenterScreen">
+        Title="" MinHeight="518" MinWidth="788" WindowStartupLocation="CenterScreen" Width="0"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent" Height="836">
     <Window.Resources>
-
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <local2:ClippingBorder x:Key="RadiusImage" CornerRadius="4">
-            <Image Stretch="UniformToFill"/>
-        </local2:ClippingBorder>
-
-
-
-
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="ButtomReadMore" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <!--Стиль кнопки-->
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="White"/>
+        <Style x:Key="StyleButton" TargetType="Button">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="5" x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="3"  Background="#238636">
+                            <ContentPresenter x:Name="contentPresenter" Margin="15 0 15 0" Content="Читать подробнее" HorizontalAlignment="Center"  VerticalAlignment="Center" TextElement.FontSize="17"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#2EA043"/>
                             </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#30A53B"/>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="TextElement.FontWeight" TargetName="contentPresenter" Value="Bold"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
-        <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
-        <Style x:Key="SansBold">
-            <Setter Property="TextElement.FontFamily" Value="icons\PTSans-Italic.ttf"/>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="StyleListView">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Margin="10 0 0 0" x:Name="item_border" CornerRadius="10"  Background="#F5F5F5">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <Style x:Key="SansRegular">
-            <Setter Property="TextElement.FontFamily" Value="\icons\ptsans-regular.ttf"/>
+        <Style x:Key="PathStyleClose" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85
+		                                   c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563
+		                                   c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85
+		                                   l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554
+		                                   L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"/>
+            <Setter Property="Fill" Value="Gray"/>
+            <Setter Property="Stroke" Value="#00000000"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="#adacac"/>
+                    <Setter Property="Stroke" Value="#00000000"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PathStyleUncover" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M132 307 c-61 -62 -112 -119 -112 -128 0 -18 31 
+                    -49 49 -49 7 0 52 36 99 80 48 44 89 80 93 80 3 0 45 
+                    -36 92 -80 47 -44 92 -80 99 -80 18 0 48 32 48 51 0 19 
+                    -221 239 -240 239 -9 0 -66 -51 -128 -113z"/>
+            <Setter Property="Fill" Value="Gray"/>
+            <Setter Property="Stroke" Value="#00000000"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="#adacac"/>
+                    <Setter Property="Stroke" Value="#00000000"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PathStyleHide" TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="M132 307 c-61 -62 -112 -119 -112 -128 0 -18 31 -49 49 -49 7 0 52 36 99 80 48 44 89 80 93 80 3 0 45 -36 92 -80 47 -44 92 -80 99 -80 18 0 48 32 48 51 0 19 -221 239 -240 239 -9 0 -66 -51 -128 -113z"/>
+            <Setter Property="Fill" Value="Gray"/>
+            <Setter Property="Stroke" Value="#00000000"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="#adacac"/>
+                    <Setter Property="Stroke" Value="#00000000"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Window.DataContext>
         <local1:ModulationMediaWork/>
     </Window.DataContext>
-    <Grid>
-        <TabControl TabStripPlacement="Top" BorderThickness="0">
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock FontSize="17">Все новости</TextBlock>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <ListView Background="#F5F5F5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding MassMediaInformationProducts}">
-                        <ListView.ItemTemplate  >
-                            <DataTemplate>
-                                <Border Background="White" CornerRadius="5" Margin="10">
-                                    <Grid Background="#FFFFFF" Margin="10 10 0 10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2.5*"/>
-                                            <ColumnDefinition Width="7.5*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image  Margin="10 10 10 10" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
-                                        <Grid Height="auto" Grid.Column="1" Margin="0 0 0 10">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <Grid Grid.Row="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1.5*"/>
-                                                    <ColumnDefinition Width="8.5*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
-                                                <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0"  Text="{Binding DatePublication}"/>
-                                            </Grid>
-                                            <TextBlock Style="{DynamicResource SansBold}" Height="auto" TextWrapping="Wrap" FontWeight="Bold" FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
-                                            <TextBlock Style="{DynamicResource SansRegular}" Height="auto" TextWrapping="Wrap" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}"/>
-                                            <Button Width="300" HorizontalAlignment="Left" Height="auto" Style="{DynamicResource ButtomReadMore}" FontWeight="Bold" Background="#30A53B" Foreground="White" BorderThickness="0" FontSize="17" Grid.Row="3">Читать подробнее</Button>
-                                        </Grid>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
+    <Border CornerRadius="15" Background="#363636">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.06*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="0 10 10 0">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Viewbox Height="10" Margin="10 10 10 17">
+                        <Canvas Height="20" Width="20"  >
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="0.100000" ScaleY="-0.100000" />
+                                    <TranslateTransform X="0.000000" Y="52.000000" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path   Style="{DynamicResource PathStyleHide}"/>
+                        </Canvas>
+                    </Viewbox>
+                    <Viewbox Height="20" Width="20">
+                        <Path Style="{DynamicResource PathStyleUncover}"/>
+                    </Viewbox>
+                    <Viewbox Height="20" Width="20">
+                        <Path Style="{DynamicResource PathStyleClose}"/>
+                    </Viewbox>
+                    
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Background="#363636">
+                <TabControl Background="#363636" TabStripPlacement="Top" BorderThickness="0">
+                    <TabItem >
+                        <TabItem.Header>
+                            <TextBlock FontSize="17">Все новости</TextBlock>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="9*"/>
+                                </Grid.RowDefinitions>
+                                <!--<Viewbox Margin="0 10 0 10" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <Canvas Height="127" Width="353">
+                                        <Path Data="M136.4,93.1l-0.1-0.6c0,0-9.5-57.3-9.8-59.1c-0.4-2-1.4-2.6-2.7-2.6h-0.1c-1.2,0-2,0.4-2.8,2.5  c-0.5,1.3-17.2,47.8-17.2,47.8s-0.2,0.7-1,0.7c-0.8,0-1-0.8-1-0.8S85,34.5,84.5,33.2c-0.8-2.2-1.6-2.5-2.8-2.5h-0.1  c-1.3,0-2.3,0.6-2.7,2.6c-0.4,1.8-9.8,59.1-9.8,59.1L69,93.1c0,0.1,0,0.3,0,0.4c0,1.9,1.6,3.5,3.5,3.6h0.2c1.7,0,3.1-1.3,3.4-3  l-0.1,0l0.1-0.1L82,52.3c0,0,0.1-1.2,1.1-1.2c1,0,1.4,1.3,1.4,1.3l15.4,42.4l0.1,0.2c0.4,1.1,1.3,1.8,2.8,1.8c1.6,0,2.4-0.8,2.8-1.8  l0.1-0.2l15.3-42.4c0,0,0.4-1.3,1.4-1.3c0.9,0,1.1,1.2,1.1,1.2l5.9,41.6l0.1,0.1l-0.1,0c0.3,1.7,1.7,2.9,3.4,3h0.2  c1.9,0,3.5-1.6,3.5-3.6C136.4,93.3,136.4,93.2,136.4,93.1" Fill="#FFFFFF" />
+                                        <Path Data="M56.4,84.4c0.6,0.6,0.9,1.5,1,2.4c0,1.8-1.4,2.8-1.4,2.8C50,94.6,42.7,97,35.2,97C16.8,97,2,82.4,2,64  c0-18.4,14.8-33.2,33.2-33.2c8.4,0,14.8,2.7,20.5,7.1l0.4,0.3c0.9,0.8,1.2,1.6,1.2,2.6c0,0,0,1.2-0.9,2.4c0,0-0.1,0.1-0.1,0.1  c-1,0.9-2.4,1-2.4,1c-0.7,0-1.4-0.2-1.9-0.6c-0.1-0.1-0.4-0.3-0.4-0.3c-4.6-3.6-10.6-5.9-16.4-5.9c-14.5,0-25.7,12.2-25.7,26.5  c0,14.2,11.1,26.4,25.7,26.4c7.4,0,11.8-2.8,16.5-6.1c2.1-1.5,3.8-0.6,4.4-0.1" Fill="#FFFFFF" />
+                                        <Path Data="M156.7,82.1c-0.6-0.3-0.6-1-0.6-1l0-46.7V34c-0.1-1.8-1.6-3.2-3.4-3.3h-0.2c-1.9,0-3.3,1.5-3.4,3.4v0.1v59.2  c0,1.9,1.5,3.5,3.5,3.5c1,0,1.9-0.4,2.6-1.1L194.3,46c0,0,0.6-0.6,1.3-0.4c0.7,0.3,0.7,1.1,0.7,1.1v46.6v0.4  c0.1,1.8,1.6,3.2,3.4,3.3h0.2c1.9,0,3.3-1.5,3.4-3.4v-0.1V34.2v0c0-1.9-1.5-3.5-3.5-3.5c-1,0-2,0.4-2.6,1.1  C187.4,44.4,158,81.7,158,81.7S157.6,82.4,156.7,82.1" Fill="#FFFFFF" />
+                                        <Path Data="M349.7,63.9c0,33.7-27.3,61-61,61c-33.7,0-61-27.3-61-61c0-33.7,27.3-61,61-61C322.4,2.9,349.7,30.2,349.7,63.9  " Fill="#40AE49" />
+                                        <Path Data="M305.8,90.8h-0.3h-24.2c0,0-0.6,0.1-1-0.6c-0.4-0.7,0.1-1.2,0.1-1.2s11.2-12,16.8-17.9c6.6-7.1,12-13.4,12-21.8  c0-9.8-7-18.5-20.8-18.5c-8.9,0-15,5.7-17.3,8.3l-0.2,0.2c-0.4,0.6-0.7,1.3-0.7,2c0,0.9,0.4,1.7,0.9,2.3c0,0,0.1,0.1,0.1,0.1  c0.6,0.5,1.3,0.8,2.1,0.8c0.9,0,1.7-0.4,2.3-1l0,0c3-3,7.3-6.2,12.6-6.2c9.9,0,13.5,6.7,13.5,12.2c0,4.5-3.2,10.3-9.7,17.4  c-7.6,8.2-15.1,16.4-22.8,24.6l-0.2,0.2c-0.2,0.3-0.4,0.6-0.5,0.9c-0.1,0.4-0.2,0.7-0.2,1.1c0,0.4,0.1,0.8,0.2,1.1  c0.5,1.2,1.5,2.1,2.9,2.1l0.2,0h33.8h0.3c1.6-0.1,2.9-1.4,3-3v-0.3C308.6,92.1,307.4,90.8,305.8,90.8" Fill="#FFFFFF" />
+                                    </Canvas>
+                                </Viewbox>-->
+                                <ListView Grid.Row="1" ItemContainerStyle="{DynamicResource StyleListView}"  BorderThickness="0" Background="#F5F5F5" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding MassMediaInformationProducts}" >
+                                    <ListView.ItemTemplate >
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" BorderBrush="#D8D8D8" Background="White" CornerRadius="10" Margin="0 10 10 0">
+                                                <Grid Height="120" Background="#FFFFFF" Margin="10 10 0 10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.5*"/>
+                                                        <ColumnDefinition Width="8.5*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image HorizontalAlignment="Left" Margin="0 0 10 0" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
+                                                    <Grid Height="auto" Grid.Column="1" Margin="0 0 10 10">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="1.5*"/>
+                                                            <RowDefinition Height="2*"/>
+                                                            <RowDefinition Height="1.5*"/>
+                                                            <RowDefinition Height="1.3*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" >
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
+                                                            <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0" HorizontalAlignment="Right"  Text="{Binding DatePublication}"/>
+                                                        </Grid>
+                                                        <Viewbox Grid.Row="1" HorizontalAlignment="Left">
+                                                            <TextBlock  FontWeight="Bold" Height="auto" TextWrapping="Wrap"  FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
+                                                        </Viewbox>
+                                                        <TextBlock Height="auto" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}" />
+                                                        <Button Style="{DynamicResource StyleButton}" HorizontalAlignment="Left" Grid.Row="3"></Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Подписки" FontSize="17"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label FontSize="30">dasdsadsa</Label>
+                                <Label FontFamily="/Fonts/#PTSans" Grid.Row="1" FontSize="30">dasdsadsa</Label>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                </TabControl>
+                <Grid>
+                </Grid>
+            </Grid>
+        </Grid>
 
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Подписки" FontSize="17"/>
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
-        </TabControl>
-    </Grid>
+    </Border>
 </Window>
-<!--<Border Grid.Row="" Width="Auto" Height="Auto" BorderBrush="Aqua" BorderThickness="1" CornerRadius="5,5,5,5"/>-->
 
-<!--<Image Grid.Column Source="pack://application:,,,/Modulir Mass Media;component/Icons/Subscription.png"/>-->
     
