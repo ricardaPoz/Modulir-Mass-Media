@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Modulir_Mass_Media.Classes
 {
-    class InformationProduct
+    public class InformationProduct
     {
         public InformationProduct(string titleProduct, string contentProduct, string linkProduct, string categoryProduct)
         {
@@ -21,7 +21,7 @@ namespace Modulir_Mass_Media.Classes
         public int CountLikeInformationProduct { get; set; }
     }
 
-    class MassMediaInformationProduct
+    public class MassMediaInformationProduct
     {
         public InformationProduct InformationProduct { get; private set; }
         public DateTime DatePublication { get; private set; }

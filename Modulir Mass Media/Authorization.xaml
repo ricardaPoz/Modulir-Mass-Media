@@ -72,11 +72,11 @@
 		                                   c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85
 		                                   l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554
 		                                   L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"/>
-            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="Fill" Value="Gray"/>
             <Setter Property="Stroke" Value="#00000000"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Fill" Value="Gray"/>
+                    <Setter Property="Fill" Value="#adacac"/>
                     <Setter Property="Stroke" Value="#00000000"/>
                 </Trigger>
             </Style.Triggers>
@@ -155,7 +155,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Button Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Content="Зарегистрироваться" FontFamily="/fonts/#Ubuntu"/>
-                                <Button Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Grid.Column="1" Content="Войти без авторизации" FontFamily="/fonts/#Ubuntu"/>
+                                <Button x:Name="btnLoginNotAuthorization" PreviewMouseLeftButtonDown="btnLoginNotAuthorization_PreviewMouseLeftButtonDown" Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Grid.Column="1" Content="Войти без авторизации" FontFamily="/fonts/#Ubuntu"/>
                             </Grid>
                         </Grid>
                     </Border>

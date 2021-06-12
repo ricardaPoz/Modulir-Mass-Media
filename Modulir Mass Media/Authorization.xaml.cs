@@ -20,7 +20,6 @@ namespace Modulir_Mass_Media
         public Authorization()
         {
             InitializeComponent();
-            pbPassword.BorderBrush = Brushes.Red;
         }
 
         private void pbPassword_PasswordChanged(object sender, RoutedEventArgs e)
@@ -31,7 +30,7 @@ namespace Modulir_Mass_Media
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (pbPassword.Password.Length < 1|| tbLogin.Text.Length == 0)
+            if (pbPassword.Password.Length < 1 || tbLogin.Text.Length == 0)
             {
                 borderLogin.BorderBrush = Brushes.Red;
                 borderPassword.BorderBrush = Brushes.Red;
@@ -46,14 +45,17 @@ namespace Modulir_Mass_Media
             }
         }
 
-        private void Viewbox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Close();
-        }
+        private void Viewbox_MouseDown(object sender, MouseButtonEventArgs e) => Close();
 
         private void container_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left) DragMove();
+        }
+
+        private void btnLoginNotAuthorization_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.ShowDialog();
         }
     }
 }
