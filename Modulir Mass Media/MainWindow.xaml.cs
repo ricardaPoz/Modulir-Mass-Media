@@ -24,15 +24,12 @@ namespace Modulir_Mass_Media
     /// </summary>
     public partial class MainWindow : Window
     {
-        
-
-
         public MainWindow()
         {
             InitializeComponent();
             //Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#312E2B"));
-        /*    ModulationMediaWork modulationMediaWork = new ModulationMediaWork();
-            modulationMediaWork.ModulationMedia();*/
+            /*    ModulationMediaWork modulationMediaWork = new ModulationMediaWork();
+                modulationMediaWork.ModulationMedia();*/
             /*    RssParser rss = new RssParser(100);
                 rss.StartParsing();*/
 
@@ -47,8 +44,6 @@ namespace Modulir_Mass_Media
             MessageBox.Show(modulationMediaWork.MassMediaInformationProducts.Count.ToString());*/
         }
 
-       
-
         private void closeForm_MouseDown(object sender, MouseButtonEventArgs e) => Close();
         private void uncoverWorm_MouseDown(object sender, MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
 
@@ -59,6 +54,10 @@ namespace Modulir_Mass_Media
         private void cmbUncoverAndHide_Checked(object sender, RoutedEventArgs e) => WindowState = WindowState.Maximized;
 
         private void cmbUncoverAndHide_Unchecked(object sender, RoutedEventArgs e) => WindowState = WindowState.Normal;
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+        }
 
         /*public async void PlayVideo()
 {

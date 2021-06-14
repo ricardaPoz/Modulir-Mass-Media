@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace Modulir_Mass_Media.Classes
 {
@@ -19,10 +20,11 @@ namespace Modulir_Mass_Media.Classes
             get { return massMediaInformationProducts; }
         }
 
+        object locker = new object();
 
         public ModulationMediaWork()
         {
-            ModulationMedia();
+            //ModulationMedia();
         }
 
 
@@ -62,8 +64,14 @@ namespace Modulir_Mass_Media.Classes
 
         private void Vedomosti_ProductRelese(object sender, MassMediaReleaseInformationProductEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(new Action(()=> MassMediaInformationProducts.Insert(0, e.MassMediaInformationProduct)));
+            lock (locker)
+            {
+                if (MassMediaInformationProducts.Any(g => g.InformationProduct.TitleProduct == e.MassMediaInformationProduct.InformationProduct.TitleProduct)) return;
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                MassMediaInformationProducts.Insert(0, e.MassMediaInformationProduct);
+            }));
+            }
         }
-
     }
 }

@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Modulir_Mass_Media"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Page.xaml">
     <Application.Resources>
         <Style x:Key="SansBold">
             <Setter Property="TextElement.FontFamily" Value="/icons/#Yahfie Bruch"/>

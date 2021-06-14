@@ -118,6 +118,7 @@ namespace Modulir_Mass_Media.Classes
             try { _ = (int)command.ExecuteScalar(); }
             catch { return; }
             int idNews = (int)command.ExecuteScalar();
+            
 
             // получение ссылки на видео для контента
             command = new SqlCommand($@"select [link] from [Audio] where [id] = {idNews}", sqlConnection);
