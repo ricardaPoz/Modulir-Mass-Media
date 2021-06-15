@@ -124,7 +124,7 @@
                             </Grid>
                             <Grid Margin="55 0 55 0" Grid.Row="1">
                                 <Border x:Name="borderLogin" Grid.Row="1" CornerRadius="20" BorderBrush="#D8D8D8" BorderThickness="1" Margin="5">
-                                    <TextBox x:Name="tbLogin" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
+                                    <TextBox MaxLength="50" IsKeyboardFocusedChanged="tbLogin_IsKeyboardFocusedChanged" MaxLines="1" x:Name="tbLogin" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
                                 </Border>
                                 <TextBlock IsHitTestVisible="False" Foreground="#bfbfbf" Margin="18 22.3 0 0" FontFamily="/fonts/#Ubuntu" Grid.Row="1" FontSize="20" Text="Login">
                                     <TextBlock.Style>
@@ -141,12 +141,12 @@
                             </Grid>
                             <Grid Grid.Row="2" Margin="55 0 55 0">
                                 <Border x:Name="borderPassword" CornerRadius="20" BorderBrush="#D8D8D8" BorderThickness="1" Margin="5">
-                                    <PasswordBox x:Name="pbPassword" PasswordChanged="pbPassword_PasswordChanged"  FontSize="20" Background="#FCFCFC" BorderThickness="0" VerticalAlignment="Center" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu"/>
+                                    <PasswordBox IsKeyboardFocusedChanged="pbPassword_IsKeyboardFocusedChanged" MaxLength="15" x:Name="pbPassword" PasswordChanged="pbPassword_PasswordChanged"  FontSize="20" Background="#FCFCFC" BorderThickness="0" VerticalAlignment="Center" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu"/>
                                 </Border>
                                 <TextBlock x:Name="waterMark" IsHitTestVisible="False" Foreground="#bfbfbf" Margin="18 22.3 0 0" FontFamily="/fonts/#Ubuntu" Grid.Row="2" FontSize="20" Text="Password"/>
                             </Grid>
                             <Grid Grid.Row="3" Margin="55 0 55 5">
-                                <Button Click="Button_Click" Margin="0 20 0 0" Grid.Row="3" Style="{DynamicResource StyleButton}" />
+                                <Button x:Name="btnCome" Click="btnCome_Click" Margin="0 20 0 0" Grid.Row="3" Style="{DynamicResource StyleButton}" />
                             </Grid>
                             <Polygon Margin="0 5 0 0" Grid.Column="0" Grid.Row="4" Fill="White" Points="800 3 0 3" StrokeThickness="1" Stroke="#D8D8D8"/>
                             <Grid Grid.Row="4">
@@ -154,8 +154,8 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Content="Зарегистрироваться" FontFamily="/fonts/#Ubuntu"/>
-                                <Button x:Name="btnLoginNotAuthorization" PreviewMouseLeftButtonDown="btnLoginNotAuthorization_PreviewMouseLeftButtonDown" Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Grid.Column="1" Content="Войти без авторизации" FontFamily="/fonts/#Ubuntu"/>
+                                <Button x:Name="btnRegistration" Click="btnRegistration_Click" Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Content="Зарегистрироваться" FontFamily="/fonts/#Ubuntu"/>
+                                <Button x:Name="btnLoginNotAuthorization" Margin="0 9 0 0" Style="{DynamicResource StyleButtonNav}" Grid.Column="1" Content="Войти без авторизации" FontFamily="/fonts/#Ubuntu"/>
                             </Grid>
                         </Grid>
                     </Border>

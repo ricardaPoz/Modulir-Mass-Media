@@ -77,72 +77,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="PathStyleClose" TargetType="{x:Type Path}">
-            <Setter Property="Data" Value="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85
-		                                   c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563
-		                                   c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85
-		                                   l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554
-		                                   L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"/>
-            <Setter Property="Fill" Value="Gray"/>
-            <Setter Property="Stroke" Value="#00000000"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Fill" Value="#adacac"/>
-                    <Setter Property="Stroke" Value="#00000000"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="PathStyleUncoverAndHide" TargetType="{x:Type Path}">
-            <Setter Property="Data" Value="M132 307 c-61 -62 -112 -119 -112 -128 0 -18 31 
-                    -49 49 -49 7 0 52 36 99 80 48 44 89 80 93 80 3 0 45 
-                    -36 92 -80 47 -44 92 -80 99 -80 18 0 48 32 48 51 0 19 
-                    -221 239 -240 239 -9 0 -66 -51 -128 -113z"/>
-            <Setter Property="Fill" Value="Gray"/>
-            <Setter Property="Stroke" Value="#00000000"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Fill" Value="#adacac"/>
-                    <Setter Property="Stroke" Value="#00000000"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
-                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Margin="2 0 0 0">
-                            <Border x:Name="mainBorder" Background="#242730"  Margin="0">
-                                <Border x:Name="innerBorder" Background="#464650"  Margin="-1" Opacity="0"/>
-                            </Border>
-                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <!--при навидении на элемент tab control-->
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
-                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" TargetName="mainBorder" Value="#515159"/>
-                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
-                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
-                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Panel.ZIndex" Value="1"/>
-                                <Setter Property="Margin" Value="-2,-2,-2,0"/>
-                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
-                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
-                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
-                            </MultiDataTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
     <Window.DataContext>
         <local1:ModulationMediaWork/>
@@ -159,6 +93,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid Margin="0 10 10 0">
+                <TextBlock x:Name="textBoxClient" FontFamily="/fonts/#Ubuntu" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <CheckBox
                         x:Name="cmbUncoverAndHide"
@@ -268,10 +203,10 @@
                                                     <Image Grid.Column="0" HorizontalAlignment="Center" Margin="0 0 10 0" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
                                                     <Grid Height="auto" Grid.Column="1" Margin="0 0 10 10">
                                                         <Grid.RowDefinitions>
-                                                            <RowDefinition Height="1.5*"/>
-                                                            <RowDefinition Height="2*"/>
-                                                            <RowDefinition Height="1.5*"/>
-                                                            <RowDefinition Height="1.3*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
                                                         </Grid.RowDefinitions>
                                                         <Grid Grid.Row="0" >
                                                             <Grid.ColumnDefinitions>
@@ -285,7 +220,83 @@
                                                             <TextBlock  FontWeight="Bold" Height="auto" TextWrapping="Wrap"  FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
                                                         </Viewbox>
                                                         <TextBlock TextAlignment="Left" Height="auto" TextTrimming="CharacterEllipsis" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}" />
-                                                        <Button Style="{DynamicResource StyleButton}" HorizontalAlignment="Left" Grid.Row="3"></Button>
+                                                        <Grid Grid.Row="3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.4*"/>
+                                                                <ColumnDefinition Width="0.6*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Button Style="{DynamicResource StyleButton}" VerticalAlignment="Stretch" HorizontalAlignment="Left"  Grid.Row="3"/>
+                                                            <Grid Grid.Column="1" Margin="0"  HorizontalAlignment="Stretch">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                    <ColumnDefinition  Width="*"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Center">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                                <Grid Grid.Column="1">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Left">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                                <Grid Grid.Column="2">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Left">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                                <Grid Grid.Column="3">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Left">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                                <Grid Grid.Column="4">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Left">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                                <Grid Grid.Column="5">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Viewbox HorizontalAlignment="Left">
+                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
+                                                                    </Viewbox>
+                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </Border>
@@ -297,7 +308,7 @@
                     </TabItem>
                     <TabItem Style="{DynamicResource TabItemStyle}">
                         <TabItem.Header>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" >
                                 <TextBlock 
                                     Text="Подписки" 
                                     Foreground="#8E8E95" 
@@ -316,8 +327,6 @@
                         </TabItem.Content>
                     </TabItem>
                 </TabControl>
-                <Grid>
-                </Grid>
             </Grid>
         </Grid>
     </Border>

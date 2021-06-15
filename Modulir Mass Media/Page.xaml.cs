@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
 
 namespace Modulir_Mass_Media
 {
@@ -17,7 +19,7 @@ namespace Modulir_Mass_Media
     /// </summary>
     public partial class Page : Window
     {
-        public Page()
+        public  Page()
         {
             InitializeComponent();
             text.Text = " Вашингтон, 13 июня. Совместные затраты России и Китая на оборону превзошли военный бюджет США, заявил председатель Комитета начальников штабов американских ВС генерал Марк Милли.";
@@ -25,8 +27,16 @@ namespace Modulir_Mass_Media
             text.Text += "\n\n При этом, по информации аналитического института SIPRI, номинальные траты на оборону за 2020 год в США составили 778 миллиардов долларов, в Китае — 252 миллиарда долларов и 61,7 миллиарда долларов в России.";
             text.Text += "\n\n Ранее генерал Милли жаловался на то, что Москва и Пекин продолжают скрывать информацию о затратах на военные нужды, а потому данные об оборонных бюджетах остаются загадкой для США.";
             text.Text += "\n\n Ранее генерал Милли жаловался на то, что Москва и Пекин продолжают скрывать информацию о затратах на военные нужды, а потому данные об оборонных бюджетах остаются загадкой для США.";
+            PlayV();
         }
 
+        private async void PlayV()
+        {
+            var youtube = new YoutubeClient();
+            var streamManifest = await youtube.Videos.Streams.GetManifestAsync("https://www.youtube.com/watch?v=JdfxN-2vEzE");
+            var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
+            videoPlayer.Source = new Uri(streamInfo.Url);
+        }
         private void cmbUncoverAndHide_Unchecked(object sender, RoutedEventArgs e) => WindowState = WindowState.Normal;
         private void cmbUncoverAndHide_Checked(object sender, RoutedEventArgs e) => WindowState = WindowState.Maximized;
         private void closeForm_MouseDown(object sender, MouseButtonEventArgs e) => Close();
@@ -34,6 +44,10 @@ namespace Modulir_Mass_Media
         private void container_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left) DragMove();
+        }
+
+        private void chbLike_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

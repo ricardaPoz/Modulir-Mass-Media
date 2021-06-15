@@ -37,5 +37,27 @@ CREATE TABLE [dbo].[Video] (
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
+CREATE TABLE Client
+(
+    [id] INT IDENTITY (1, 1) NOT NULL,
+    [Login]  NVARCHAR (100) NOT NULL,
+    [Password]  NVARCHAR (100) NOT NULL,
+    [Data] ntext 
+);
 
+select count([Login])
+from Client
+where [Login] = N'сас'
+
+select count([Login])
+from Client
+where [Login] = N'Поздняков Семён'
+
+select count(id)
+from Client
+where [Login] = N'1' and [Password] = N'1'
+
+select [Password]
+from Client
+where [Login] = N'1' 
 

@@ -14,8 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Modulir_Mass_Media.Classes;
-using YoutubeExplode;
-using YoutubeExplode.Videos.Streams;
 
 namespace Modulir_Mass_Media
 {
@@ -42,6 +40,15 @@ namespace Modulir_Mass_Media
             /*DataContext = modulationMediaWork;
             listView.ItemsSource = modulationMediaWork.MassMediaInformationProducts;
             MessageBox.Show(modulationMediaWork.MassMediaInformationProducts.Count.ToString());*/
+
+
+            //ModulationMediaWork modulationMediaWork = new ModulationMediaWork();
+
+            if (DateTime.Now.Hour < 6 && DateTime.Now.Hour > 0) textBoxClient.Text = "Доброй ночи";
+            if (DateTime.Now.Hour < 12 && DateTime.Now.Hour > 6) textBoxClient.Text = "Доброе утро";
+            if (DateTime.Now.Hour < 18 && DateTime.Now.Hour > 12) textBoxClient.Text = "Добрый день";
+            if (DateTime.Now.Hour < 24 && DateTime.Now.Hour > 18) textBoxClient.Text = "Добрый вечер";
+
         }
 
         private void closeForm_MouseDown(object sender, MouseButtonEventArgs e) => Close();
@@ -61,11 +68,7 @@ namespace Modulir_Mass_Media
 
         /*public async void PlayVideo()
 {
-var youtube = new YoutubeClient();
 
-var streamManifest = await youtube.Videos.Streams.GetManifestAsync("https://www.youtube.com/watch?v=JdfxN-2vEzE");
-var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
-media.Source = new Uri(streamInfo.Url);
 }*/
     }
 

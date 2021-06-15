@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -73,7 +74,7 @@ namespace Modulir_Mass_Media.Classes
         private void GetNews(string linkToRSS, TypeRssInfo typeRssInfo)
         {
             SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
+            sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
 
             try
             {

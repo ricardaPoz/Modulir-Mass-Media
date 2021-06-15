@@ -63,7 +63,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
+            SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //
@@ -107,7 +107,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
+            SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //
@@ -153,7 +153,7 @@ namespace Modulir_Mass_Media.Classes
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\santa\Desktop\Modulir Mass Media\Modulir Mass Media\NewsStore\Rss.mdf"";Integrated Security=True");
+            SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
             sqlConnection.Open();
             SqlCommand command;
             //
@@ -163,7 +163,10 @@ namespace Modulir_Mass_Media.Classes
 
             try { _ = (int)command.ExecuteScalar(); }
             catch { return; }
+
             int idNews = (int)command.ExecuteScalar();
+            command = new SqlCommand($@"update [Text] set [take] = 1 where [id] = {idNews}", sqlConnection);
+            command.ExecuteNonQuery();
 
             // получение ссылки на новость 
             command = new SqlCommand($@"select [link] from [Text] where [id] = {idNews}", sqlConnection);
@@ -213,8 +216,6 @@ namespace Modulir_Mass_Media.Classes
             string category = (string)command.ExecuteScalar();
 
             InformationProduct informationProduct = new InformationProduct(titleNews, string.Concat(ListInformationProduct.Select(e => e + "\n")), linkNews, category);
-            command = new SqlCommand($@"update [Text] set [take] = 1 where [id] = {idNews}", sqlConnection);
-            command.ExecuteNonQuery();
 
             sqlConnection.Close();
 

@@ -25,6 +25,13 @@ namespace Modulir_Mass_Media.Classes
         public ModulationMediaWork()
         {
             //ModulationMedia();
+            //string namesmi = "Ведомости";
+            //string title = "Блинкен признал, что ряд действий США подрывали миропорядок";
+            //string content = "Некоторые действия властей США за последние годы подрывали «основанный на правилах порядок», заявил...   ";
+
+            //DateTime dt = DateTime.Now;
+
+            //MassMediaInformationProducts.Add(new MassMediaInformationProduct(namesmi, new InformationProduct(title, content, "Link", "category"), dt));
         }
 
 
