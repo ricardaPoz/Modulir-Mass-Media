@@ -201,7 +201,8 @@
                                                         <ColumnDefinition Width="8.5*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Image Grid.Column="0" HorizontalAlignment="Center" Margin="0 0 10 0" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
-                                                    <Grid Height="auto" Grid.Column="1" Margin="0 0 10 10">
+                                                    <Grid  Grid.Column="1" Margin="0 0 10 10">
+                                                        <!--Height="auto" проверить на баг -->
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="*"/>
                                                             <RowDefinition Height="*"/>

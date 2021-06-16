@@ -47,6 +47,7 @@ namespace Modulir_Mass_Media
                 borderPassword.BorderBrush = Brushes.Red;
                 errorWrite.Visibility = Visibility.Visible;
                 errorTextBlock.Text = "Введите login и password";
+                return;
             }
             else
             {
@@ -62,8 +63,6 @@ namespace Modulir_Mass_Media
             SqlCommand command;
             
             command = new SqlCommand($"select count([Login]) from Client where [Login] = N'{tbLogin.Text}'", sqlConnection);
-
-            
             
             int countСoincidences = (int)command.ExecuteScalar();
             if (countСoincidences == 0)
@@ -104,6 +103,7 @@ namespace Modulir_Mass_Media
                 borderPassword.BorderBrush = Brushes.Red;
                 errorWrite.Visibility = Visibility.Visible;
                 errorTextBlock.Text = "Введите логин или пароль";
+                return;
             }
             else
             {

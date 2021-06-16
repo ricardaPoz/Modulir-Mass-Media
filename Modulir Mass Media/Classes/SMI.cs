@@ -5,22 +5,24 @@ using System.Text;
 
 namespace Modulir_Mass_Media.Classes
 {
-    class MassMediaReleaseInformationProductEventArgs
+    public class MassMediaReleaseInformationProductEventArgs
     {
         public MassMediaInformationProduct MassMediaInformationProduct { get; private set; }
         public MassMediaReleaseInformationProductEventArgs(MassMediaInformationProduct massMediaProduct) => MassMediaInformationProduct = massMediaProduct;
     }
 
-    class MassMedia
+    public class MassMedia
     {
         public delegate void MassMediaReleaseInformationProductHandler(object sender, MassMediaReleaseInformationProductEventArgs e);
         public event MassMediaReleaseInformationProductHandler ProductRelese;
 
-        private string nameMassMedia;
+        public string NameMedia { get; private set; }
+
+        //private string nameMassMedia;
 
         public MassMedia(string nameMassMedia)
         {
-            this.nameMassMedia = nameMassMedia;
+            this.NameMedia = nameMassMedia;
         }
         List<Journalist> listJournalist = new List<Journalist>(); // список журналистов, работающих на СМИ
 
@@ -45,7 +47,7 @@ namespace Modulir_Mass_Media.Classes
 
         private void Journalist_InformationProductCreated(object sender, ProductCreatedEventArgs e)
         {
-            MassMediaInformationProduct massMediaInformationProduct = new MassMediaInformationProduct(nameMassMedia, e.InformationProduct, DateTime.Now);
+            MassMediaInformationProduct massMediaInformationProduct = new MassMediaInformationProduct(NameMedia, e.InformationProduct, DateTime.Now);
             massMediaInformationProducts.Add(massMediaInformationProduct);
             ProductRelese?.Invoke(this, new MassMediaReleaseInformationProductEventArgs(massMediaInformationProduct));
         }

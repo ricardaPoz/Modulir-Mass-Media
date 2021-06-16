@@ -37,9 +37,30 @@ CREATE TABLE [dbo].[Video] (
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
+
+CREATE TABLE RSS
+(
+    [id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+    [LinkRSS]  NVARCHAR (500) NOT NULL UNIQUE,
+    [TypeRSS]  NVARCHAR (10) NOT NULL
+);
+
+CREATE TABLE SMI
+(
+    [NameSMI]  NVARCHAR (100) PRIMARY KEY NOT NULL,
+);
+
+create table Journalist
+(
+	Id int not null primary key identity(1,1),
+	NameJournalist nvarchar(100) not null,
+    [Type] NVARCHAR (10) NOT NULL,
+	[NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) On delete No action
+)
+
 CREATE TABLE Client
 (
-    [id] INT IDENTITY (1, 1) NOT NULL,
+    [id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
     [Login]  NVARCHAR (100) NOT NULL,
     [Password]  NVARCHAR (100) NOT NULL,
     [Data] ntext 

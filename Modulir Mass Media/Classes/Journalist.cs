@@ -11,12 +11,12 @@ using System.Timers;
 
 namespace Modulir_Mass_Media.Classes
 {
-    class ProductCreatedEventArgs
+    public class ProductCreatedEventArgs
     {
         public InformationProduct InformationProduct { get; private set; }
         public ProductCreatedEventArgs(InformationProduct informationProduct) => InformationProduct = informationProduct;
     }
-    abstract class Journalist
+    public abstract class Journalist
     {
         public delegate void ProductCreatedtHendler(object sender, ProductCreatedEventArgs e);
         public abstract event ProductCreatedtHendler InformationProductCreated;
