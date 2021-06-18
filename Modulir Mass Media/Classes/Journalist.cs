@@ -21,14 +21,19 @@ namespace Modulir_Mass_Media.Classes
         public delegate void ProductCreatedtHendler(object sender, ProductCreatedEventArgs e);
         public abstract event ProductCreatedtHendler InformationProductCreated;
 
-        private string nameJournalist;
+        public string PassportId { get; set; }
+
+        public string NameJournalist { get; set; }
+        public string TypeJournalist { get; set; }
 
         private Timer creationTimer = new Timer();
 
-        public Journalist(string nameJournalist)
+        public Journalist(string passportId, string nameJournalist, string typeJournalist)
         {
             //this.rssParser = rssParser;
-            this.nameJournalist = nameJournalist;
+            this.NameJournalist = nameJournalist;
+            TypeJournalist = typeJournalist;
+            PassportId = passportId;
             //this.rssParser.ParseCompleted += Parser_ParseCompleted;
             creationTimer.AutoReset = true;
             Random workingTime = new Random();
@@ -55,11 +60,10 @@ namespace Modulir_Mass_Media.Classes
 
     class JournalistVideo : Journalist
     {
-
-        public JournalistVideo(string nameJournalist) : base(nameJournalist) { }
+        public JournalistVideo(string passportId, string nameJournalist, string typeJournalist) : base(passportId, nameJournalist, typeJournalist) { }
 
         public override event ProductCreatedtHendler InformationProductCreated;
-
+        
         protected override void CreateInformationProduct()
         {
             // Подключение к базе данных
@@ -98,55 +102,9 @@ namespace Modulir_Mass_Media.Classes
         }
     }
 
-    class JournalistAudio : Journalist
-    {
-        public JournalistAudio(string nameJournalist) : base(nameJournalist) { }
-
-        public override event ProductCreatedtHendler InformationProductCreated;
-
-        protected override void CreateInformationProduct()
-        {
-            // Подключение к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
-            sqlConnection.Open();
-            SqlCommand command;
-            //
-
-            // получение самой новой новости по ее максимальному ID
-            command = new SqlCommand(@"select min([id]) from [Audio] where [take] = 'false'", sqlConnection);
-
-            try { _ = (int)command.ExecuteScalar(); }
-            catch { return; }
-            int idNews = (int)command.ExecuteScalar();
-            
-
-            // получение ссылки на видео для контента
-            command = new SqlCommand($@"select [link] from [Audio] where [id] = {idNews}", sqlConnection);
-            string linkNews = (string)command.ExecuteScalar();
-
-            string contentNews = (string)command.ExecuteScalar();
-
-
-            // получение загаловка новости для добавление ее в информационный продукт 
-            command = new SqlCommand($@"select [title] from [Audio] where [id] = {idNews}", sqlConnection);
-            string titleNews = (string)command.ExecuteScalar();
-
-            command = new SqlCommand($@"select [category] from [Video] where [id] = {idNews}", sqlConnection);
-            string category = (string)command.ExecuteScalar();
-
-            InformationProduct informationProduct = new InformationProduct(titleNews, contentNews, linkNews, category);
-            command = new SqlCommand($@"update [Audio] set [take] = 1 where [id] = {idNews}", sqlConnection);
-            command.ExecuteNonQuery();
-
-            sqlConnection.Close();
-
-            InformationProductCreated?.Invoke(this, new ProductCreatedEventArgs(informationProduct));
-        }
-    }
-
     class JournalistText : Journalist
     {
-        public JournalistText(string nameJournalist) : base(nameJournalist) { }
+        public JournalistText(string passportId, string nameJournalist, string typeJournalist) : base(passportId, nameJournalist, typeJournalist) { }
 
         public override event ProductCreatedtHendler InformationProductCreated;
 

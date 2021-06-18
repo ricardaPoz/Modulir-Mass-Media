@@ -29,6 +29,12 @@ namespace Modulir_Mass_Media.Classes
 
         private bool isWork = false;
 
+        public string LinkRss { get; set; } 
+
+        public RssParser(string linkRss)
+        {
+            LinkRss = linkRss;
+        }
 
         public RssParser()
         {

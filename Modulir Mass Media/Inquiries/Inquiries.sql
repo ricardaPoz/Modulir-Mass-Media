@@ -52,10 +52,10 @@ CREATE TABLE SMI
 
 create table Journalist
 (
-	Id int not null primary key identity(1,1),
+	PassportId nvarchar(100) not null primary key,
 	NameJournalist nvarchar(100) not null,
     [Type] NVARCHAR (10) NOT NULL,
-	[NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) On delete No action
+	[NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL 
 )
 
 CREATE TABLE Client
@@ -81,4 +81,23 @@ where [Login] = N'1' and [Password] = N'1'
 select [Password]
 from Client
 where [Login] = N'1' 
+
+select PassportId, NameJournalist, [Type]
+from Journalist
+
+
+
+select *  from Journalist where [NameSMI] = N'Хуй'
+
+Update Journalist set [NameSMI] = N'Ведомости' where [PassportId] = N'dsa'
+
+update Journalist set [NameSMI] = NULL where [NameSMI] = N'Tass'
+
+select * from Journalist where  [NameSMI]  = N'Tass'
+
+select PassportId from Journalist where  [NameSMI] IS NULL
+
+drop table SMI
+drop table Journalist
+drop table RSS
 

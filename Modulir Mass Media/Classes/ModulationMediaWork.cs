@@ -38,34 +38,34 @@ namespace Modulir_Mass_Media.Classes
 
         public void ModulationMedia()
         {
-            Journalist Danilkin = new JournalistText("Данилкин Лев Александрович");
-            Journalist Dzyadko = new JournalistText("Дзядко Тимофей Викторович");
-            Journalist Taratuta = new JournalistText("Таратута Юлия Леонидовна");
+            //Journalist Danilkin = new JournalistText("Данилкин Лев Александрович");
+            //Journalist Dzyadko = new JournalistText("Дзядко Тимофей Викторович");
+            //Journalist Taratuta = new JournalistText("Таратута Юлия Леонидовна");
 
-            Journalist Shmarov = new JournalistVideo("Шмаров Андрей Игоревич");
-            Journalist Simonyan = new JournalistVideo("Симоньян Маргарита Симоновна");
+            //Journalist Shmarov = new JournalistVideo("Шмаров Андрей Игоревич");
+            //Journalist Simonyan = new JournalistVideo("Симоньян Маргарита Симоновна");
 
-            Journalist Venediktov = new JournalistAudio("Венедиктов Алексей Алексеевич");
-            Journalist Bershidsky = new JournalistAudio("Бершидский Леонид Давидович");
+            //Journalist Venediktov = new JournalistAudio("Венедиктов Алексей Алексеевич");
+            //Journalist Bershidsky = new JournalistAudio("Бершидский Леонид Давидович");
 
 
-            MassMedia vedomosti = new MassMedia("Vedomosti");
-            MassMedia tass = new MassMedia("TASS");
-            MassMedia russiaToday = new MassMedia("RT");
-            MassMedia echoMoskau = new MassMedia("Эхо Москвы");
+            //MassMedia vedomosti = new MassMedia("Vedomosti");
+            //MassMedia tass = new MassMedia("TASS");
+            //MassMedia russiaToday = new MassMedia("RT");
+            //MassMedia echoMoskau = new MassMedia("Эхо Москвы");
 
-            vedomosti.HiringEmployee(Taratuta);
-            vedomosti.HiringEmployee(Dzyadko);
+            //vedomosti.HiringEmployee(Taratuta);
+            //vedomosti.HiringEmployee(Dzyadko);
 
-            russiaToday.HiringEmployee(Simonyan);
+            //russiaToday.HiringEmployee(Simonyan);
 
-            echoMoskau.HiringEmployee(Venediktov);
+            //echoMoskau.HiringEmployee(Venediktov);
 
-            tass.HiringEmployee(Danilkin);
-            tass.HiringEmployee(Shmarov);
-            tass.HiringEmployee(Bershidsky);
+            //tass.HiringEmployee(Danilkin);
+            //tass.HiringEmployee(Shmarov);
+            //tass.HiringEmployee(Bershidsky);
 
-            vedomosti.ProductRelese += Vedomosti_ProductRelese;
+            //vedomosti.ProductRelese += Vedomosti_ProductRelese;
 
         }
 

@@ -46,7 +46,7 @@ namespace Modulir_Mass_Media
                 borderLogin.BorderBrush = Brushes.Red;
                 borderPassword.BorderBrush = Brushes.Red;
                 errorWrite.Visibility = Visibility.Visible;
-                errorTextBlock.Text = "Введите login и password";
+                errorTextBlock.Text = "Введите логин и пароль";
                 return;
             }
             else
@@ -102,7 +102,7 @@ namespace Modulir_Mass_Media
                 borderLogin.BorderBrush = Brushes.Red;
                 borderPassword.BorderBrush = Brushes.Red;
                 errorWrite.Visibility = Visibility.Visible;
-                errorTextBlock.Text = "Введите логин или пароль";
+                errorTextBlock.Text = "Введите логин и пароль";
                 return;
             }
             else
@@ -153,6 +153,17 @@ namespace Modulir_Mass_Media
             errorWrite.Visibility = Visibility.Collapsed;
             borderLogin.BorderBrush = new SolidColorBrush(Color.FromRgb(216, 216, 216));
             borderPassword.BorderBrush = new SolidColorBrush(Color.FromRgb(216, 216, 216));
+        }
+
+        private void btnSettingModelir_Click(object sender, RoutedEventArgs e)
+        {
+            Configuration configuration = new Configuration();
+            configuration.ShowDialog();
+        }
+
+        private void btnLoginNotAuthorization_Click(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }

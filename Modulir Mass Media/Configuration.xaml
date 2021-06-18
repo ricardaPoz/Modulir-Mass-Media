@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modulir_Mass_Media"
         xmlns:converters="clr-namespace:Modulir_Mass_Media.Helpers"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Configuration"
-        Width="1130"
+        Width="1480"
         MinHeight="700" 
-        MinWidth="1130" 
+        MinWidth="1480" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None"
         AllowsTransparency="True"
@@ -50,7 +51,7 @@
     </WindowChrome.WindowChrome>
     <Border
         x:Name="container" 
-        CornerRadius="15" 
+        CornerRadius="20" 
         Background="White"
         MouseDown="container_MouseDown"
         >
@@ -159,22 +160,67 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="0.5*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Margin="20 5 20 5" Style="{DynamicResource StyleButton}"  Content="Нанять журналиста"/>
+                            <Button x:Name="btnRecruitment" Click="btnRecruitment_Click" Margin="20 5 90 5" Style="{DynamicResource StyleButton}"  Content="Нанять журналиста" />
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="3" Margin="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="0.1*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Работающие журналисты" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Margin="5 5 5 0" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
-                                    <ListView Margin="3"  BorderThickness="0"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.1*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnRemoveWorkingJournalist" Click="btnRemoveWorkingJournalist_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                        <Viewbox Stretch="Fill" Height="20" Width="19" >
+                                            <Canvas Height="298.667" Width="298.667">
+                                                <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                    <TextBlock Grid.Column="1" Text="Работающие журналисты" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Border x:Name="borderWorkingJournalist" Background="#ededed" Margin="5 5 5 0" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
+                                    <ListView Background="#ededed" x:Name="listViewWorkingJournalist" 
+                                              Margin="3" 
+                                              BorderThickness="0"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                              SelectionMode="Single"
+                                              HorizontalContentAlignment="Stretch"
+                                              MouseDown="listView_MouseDown"
+                                              >
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Border BorderBrush="#D8D8D8" BorderThickness="1" Margin="3" Background="White" CornerRadius="5">
+                                                        <Grid Margin="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.4*"/>
+                                                                <ColumnDefinition Width="0.4*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="17" Text="{Binding PassportId}"/>
+                                                            <Grid Grid.Column="2" Margin="10">
+                                                                <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="17" Text="{Binding NameJournalist}"/>
+                                                            </Grid>
+                                                            <Border BorderBrush="#D8D8D8" BorderThickness="1 0 1 0" Grid.Column="1">
+                                                                <Grid Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                    <TextBlock  Margin="1 2 2 2" TextWrapping="Wrap" HorizontalAlignment="Right" Grid.Column="1" FontSize="17" Text="{Binding TypeJournalist}"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 </Border>
                             </Grid>
                             <Grid Grid.Column="1" Margin="5">
@@ -182,20 +228,43 @@
                                     <RowDefinition Height="0.1*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Список СМИ" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Margin="5 5 5 0" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnRemoveSMI" Click="btnRemoveSMI_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                        <Viewbox Stretch="Fill" Height="20" Width="19" >
+                                            <Canvas Height="298.667" Width="298.667">
+                                                <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                    <TextBlock Grid.Column="1" Text="Список СМИ" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Border x:Name="borderListSMI" Margin="5 5 5 0" Grid.Row="1" Background="#ededed" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
                                     <ListView 
                                         x:Name="listViewSMI"
                                         Margin="3"  
+                                        Background="#ededed"
                                         BorderThickness="0"
                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                        HorizontalContentAlignment="Stretch"
+                                        SelectionMode="Single"
+                                        SelectionChanged="listViewSMI_SelectionChanged"
+                                        MouseDown="listView_MouseDown"
                                         >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock HorizontalAlignment="Right" Grid.Column="1" FontSize="17" Text="{Binding NameMedia}"/>
+                                                <Grid >
+                                                    <Border BorderBrush="#D8D8D8" BorderThickness="1" Margin="3" Background="White" CornerRadius="5">
+                                                        <Grid Margin="2">
+                                                            <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="17" Text="{Binding NameMedia}"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
-
                                     </ListView>
                                 </Border>
                             </Grid>
@@ -204,12 +273,57 @@
                                     <RowDefinition Height="0.1*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Список незанятых журналистов" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Margin="5 5 5 0" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
-                                    <ListView x:Name="listViewJournalist" 
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.1*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnRemoveNotBussyJornalist" Click="btnRemoveNotBussyJornalist_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                        <Viewbox  Stretch="Fill" Height="20" Width="19" >
+                                            <Canvas Height="298.667" Width="298.667">
+                                                <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                    <TextBlock Grid.Column="1" Text="Список незанятых журналистов" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Foreground="Black" FontSize="20"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Border x:Name="borderlNotBusyJournalist" Background="#ededed" Margin="5 5 5 0" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
+                                    <ListView Background="#ededed" x:Name="listViewNotBusyJournalist" 
                                               Margin="3" 
                                               BorderThickness="0"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                              SelectionMode="Single"
+                                              HorizontalContentAlignment="Stretch"
+                                              SelectionChanged="listViewNotBusyJournalist_SelectionChanged"
+                                              MouseDown="listView_MouseDown"
                                               >
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Border BorderBrush="#D8D8D8" BorderThickness="1" Margin="3" Background="White" CornerRadius="5">
+                                                        <Grid Margin="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="0.4*"/>
+                                                                <ColumnDefinition Width="0.4*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="17" Text="{Binding PassportId}"/>
+
+                                                            <Grid Grid.Column="2" Margin="10">
+                                                                <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="17" Text="{Binding NameJournalist}"/>
+                                                            </Grid>
+
+                                                            <Border BorderBrush="#D8D8D8" BorderThickness="1 0 1 0" Grid.Column="1">
+                                                                <Grid Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                    <TextBlock  Margin="1 2 2 2" TextWrapping="Wrap" HorizontalAlignment="Right" Grid.Column="1" FontSize="17" Text="{Binding TypeJournalist}"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
                                     </ListView>
                                 </Border>
                             </Grid>
@@ -282,17 +396,28 @@
                                 <Viewbox HorizontalAlignment="Left" Width="30" Margin="10 3 0 3">
                                     <Canvas Width="512" Height="512">
                                         <Path Fill="Black" Data="m301.023438 371.777344c-4.140626 0-7.5 3.355468-7.5 7.5v117.722656h-21.316407c-4.144531 0-7.503906 3.355469-7.503906 7.5 0 4.140625 3.359375 7.5 7.503906 7.5h76.035157c13.660156 0 24.769531-11.113281 24.769531-24.769531v-53.441407c0-4.144531-3.355469-7.5-7.5-7.5-4.140625 0-7.5 3.355469-7.5 7.5v53.441407c0 5.386719-4.382813 9.769531-9.769531 9.769531h-39.714844v-117.722656c0-4.144532-3.359375-7.5-7.503906-7.5zm0 0"/>
-                                        <Path Stretch="Fill" Fill="Black" Data="m24.769531 512h212.433594c4.140625 0 7.5-3.359375 7.5-7.5 0-4.144531-3.359375-7.5-7.5-7.5h-20.660156l4.160156-41.253906h7.199219c9.5625 0 17.339844-7.777344 17.339844-17.339844v-44.238281c0-9.230469-7.257813-16.777344-16.363282-17.289063 4.144532-7.363281 6.40625-15.730468 6.40625-24.359375 0-7.007812-1.46875-13.683593-4.097656-19.738281l32.261719-43.929688 61.359375 23.761719c2.09375.898438 33.203125 14.851563 33.203125 51.816407v34.359374c0 4.140626 3.355469 7.5 7.5 7.5s7.5-3.359374 7.5-7.5v-34.359374c0-47.671876-40.800781-64.992188-42.539063-65.707032-.148437-.0625-96.414062-37.339844-96.566406-37.398437-.679688-.351563-1.230469-.746094-1.230469-1.660157v-22.367187c15.582031-12.011719 26.351563-29.957031 28.917969-50.425781 18.789062-1.0625 32.605469-16.183594 32.605469-34.003906 0-8.285157-3.019531-16.191407-8.394531-22.320313v-30.371094c0-55.238281-44.9375-100.175781-100.171876-100.175781-55.238281 0-100.175781 44.9375-100.175781 100.175781v31.160157c-18.632812 20.835937-4.382812 53.917968 24.207031 55.535156 2.515626 20.28125 13.195313 39.109375 30.5625 51.613281v20.847656c0 1.144531-.664062 1.722657-1.613281 2.144531l-95.933593 37.191407c-.046876.015625-.09375.035156-.140626.054687-1.738281.714844-42.539062 18.035156-42.539062 65.707032v122.800781c0 13.65625 11.113281 24.769531 24.769531 24.769531zm176.699219-15h-32.015625l-4.160156-41.253906h40.335937zm28.773438-102.832031v44.238281c0 1.269531-1.070313 2.339844-2.339844 2.339844-9.175782 0-74.054688 0-84.65625 0-1.269532 0-2.339844-1.074219-2.339844-2.339844v-44.238281c0-1.265625 1.070312-2.335938 2.339844-2.335938h84.65625c1.269531 0 2.339844 1.070313 2.339844 2.335938zm-10.738282-126.957031-33.871094 29.269531-32.839843-28.375c1.554687-2.609375 2.433593-5.628907 2.433593-8.773438v-12.460937c9.277344 3.890625 20.097657 6.140625 31.394532 6.140625h.011718c10.933594-.003907 21.824219-2.496094 31.042969-6.683594v13.335937c0 2.667969.660157 5.246094 1.828125 7.546876zm-33.929687 50.597656c19.191406 0 34.710937 15.628906 34.710937 34.710937 0 9.121094-3.597656 17.839844-9.953125 24.308594h-49.515625c-6.355468-6.46875-9.953125-15.1875-9.953125-24.308594 0-19.15625 15.632813-34.710937 34.710938-34.710937zm63.386719-34.570313-26.453126 36.023438c-6.367187-7.070313-14.609374-12.09375-23.417968-14.585938l32.566406-28.136719zm13.242187-111.480469v-37.773437c22.605469 2.910156 22.527344 34.910156 0 37.773437zm-153.140625-.003906c-10.152344-1.285156-16.992188-9.53125-16.992188-18.886718 0-9.238282 7.84375-16.75 16.992188-18.523438zm.320312-52.621094c-2.878906.296876-6.285156 1.097657-8.925781 2.066407v-21.023438c0-46.964843 38.210938-85.175781 85.175781-85.175781 46.964844 0 85.171876 38.210938 85.171876 85.175781v20.425781c-2.75-.914062-5.632813-1.476562-8.601563-1.691406v-1.375c0-6.675781-.90625-6.347656-25.4375-32.714844-4.519531-4.851562-11.941406-5.898437-17.667969-2.15625-28.125 18.375-62.796875 27.953126-95.199218 25.625-6.738282-.511718-13.035157 4.050782-14.515626 10.84375zm14.683594 58.296876v-54.09375c34.59375 2.183593 71.785156-7.828126 102.394532-27.566407 12.132812 13.03125 18.789062 19.941407 20.742187 22.394531v59.265626c0 33.375-27.210937 60.582031-60.585937 60.582031-36.703126 0-62.550782-28.320313-62.550782-60.582031zm16.054688 99.550781 32.027344 27.671875c-8.765626 2.464844-17.011719 7.429687-23.441407 14.539062l-26.035156-35.449218zm-125.121094 87.449219c0-37.097657 31.328125-51.019532 33.199219-51.816407l59.988281-23.253906 31.816406 43.324219c-2.65625 6.082031-4.140625 12.789062-4.140625 19.835937 0 8.628907 2.261719 16.996094 6.40625 24.359375-9.105469.511719-16.363281 8.058594-16.363281 17.289063v44.238281c0 9.5625 7.777344 17.339844 17.339844 17.339844h6.96875l4.160156 41.253906h-74.886719v-117.722656c0-4.144532-3.359375-7.5-7.5-7.5-4.144531 0-7.5 3.355468-7.5 7.5v117.722656h-39.71875c-5.386719 0-9.769531-4.382812-9.769531-9.769531zm0 0"/>
+                                        <Path Fill="Black" Data="m24.769531 512h212.433594c4.140625 0 7.5-3.359375 7.5-7.5 0-4.144531-3.359375-7.5-7.5-7.5h-20.660156l4.160156-41.253906h7.199219c9.5625 0 17.339844-7.777344 17.339844-17.339844v-44.238281c0-9.230469-7.257813-16.777344-16.363282-17.289063 4.144532-7.363281 6.40625-15.730468 6.40625-24.359375 0-7.007812-1.46875-13.683593-4.097656-19.738281l32.261719-43.929688 61.359375 23.761719c2.09375.898438 33.203125 14.851563 33.203125 51.816407v34.359374c0 4.140626 3.355469 7.5 7.5 7.5s7.5-3.359374 7.5-7.5v-34.359374c0-47.671876-40.800781-64.992188-42.539063-65.707032-.148437-.0625-96.414062-37.339844-96.566406-37.398437-.679688-.351563-1.230469-.746094-1.230469-1.660157v-22.367187c15.582031-12.011719 26.351563-29.957031 28.917969-50.425781 18.789062-1.0625 32.605469-16.183594 32.605469-34.003906 0-8.285157-3.019531-16.191407-8.394531-22.320313v-30.371094c0-55.238281-44.9375-100.175781-100.171876-100.175781-55.238281 0-100.175781 44.9375-100.175781 100.175781v31.160157c-18.632812 20.835937-4.382812 53.917968 24.207031 55.535156 2.515626 20.28125 13.195313 39.109375 30.5625 51.613281v20.847656c0 1.144531-.664062 1.722657-1.613281 2.144531l-95.933593 37.191407c-.046876.015625-.09375.035156-.140626.054687-1.738281.714844-42.539062 18.035156-42.539062 65.707032v122.800781c0 13.65625 11.113281 24.769531 24.769531 24.769531zm176.699219-15h-32.015625l-4.160156-41.253906h40.335937zm28.773438-102.832031v44.238281c0 1.269531-1.070313 2.339844-2.339844 2.339844-9.175782 0-74.054688 0-84.65625 0-1.269532 0-2.339844-1.074219-2.339844-2.339844v-44.238281c0-1.265625 1.070312-2.335938 2.339844-2.335938h84.65625c1.269531 0 2.339844 1.070313 2.339844 2.335938zm-10.738282-126.957031-33.871094 29.269531-32.839843-28.375c1.554687-2.609375 2.433593-5.628907 2.433593-8.773438v-12.460937c9.277344 3.890625 20.097657 6.140625 31.394532 6.140625h.011718c10.933594-.003907 21.824219-2.496094 31.042969-6.683594v13.335937c0 2.667969.660157 5.246094 1.828125 7.546876zm-33.929687 50.597656c19.191406 0 34.710937 15.628906 34.710937 34.710937 0 9.121094-3.597656 17.839844-9.953125 24.308594h-49.515625c-6.355468-6.46875-9.953125-15.1875-9.953125-24.308594 0-19.15625 15.632813-34.710937 34.710938-34.710937zm63.386719-34.570313-26.453126 36.023438c-6.367187-7.070313-14.609374-12.09375-23.417968-14.585938l32.566406-28.136719zm13.242187-111.480469v-37.773437c22.605469 2.910156 22.527344 34.910156 0 37.773437zm-153.140625-.003906c-10.152344-1.285156-16.992188-9.53125-16.992188-18.886718 0-9.238282 7.84375-16.75 16.992188-18.523438zm.320312-52.621094c-2.878906.296876-6.285156 1.097657-8.925781 2.066407v-21.023438c0-46.964843 38.210938-85.175781 85.175781-85.175781 46.964844 0 85.171876 38.210938 85.171876 85.175781v20.425781c-2.75-.914062-5.632813-1.476562-8.601563-1.691406v-1.375c0-6.675781-.90625-6.347656-25.4375-32.714844-4.519531-4.851562-11.941406-5.898437-17.667969-2.15625-28.125 18.375-62.796875 27.953126-95.199218 25.625-6.738282-.511718-13.035157 4.050782-14.515626 10.84375zm14.683594 58.296876v-54.09375c34.59375 2.183593 71.785156-7.828126 102.394532-27.566407 12.132812 13.03125 18.789062 19.941407 20.742187 22.394531v59.265626c0 33.375-27.210937 60.582031-60.585937 60.582031-36.703126 0-62.550782-28.320313-62.550782-60.582031zm16.054688 99.550781 32.027344 27.671875c-8.765626 2.464844-17.011719 7.429687-23.441407 14.539062l-26.035156-35.449218zm-125.121094 87.449219c0-37.097657 31.328125-51.019532 33.199219-51.816407l59.988281-23.253906 31.816406 43.324219c-2.65625 6.082031-4.140625 12.789062-4.140625 19.835937 0 8.628907 2.261719 16.996094 6.40625 24.359375-9.105469.511719-16.363281 8.058594-16.363281 17.289063v44.238281c0 9.5625 7.777344 17.339844 17.339844 17.339844h6.96875l4.160156 41.253906h-74.886719v-117.722656c0-4.144532-3.359375-7.5-7.5-7.5-4.144531 0-7.5 3.355468-7.5 7.5v117.722656h-39.71875c-5.386719 0-9.769531-4.382812-9.769531-9.769531zm0 0"/>
                                     </Canvas>
                                 </Viewbox>
                                 <TextBlock Grid.Column="1" FontWeight="Bold" VerticalAlignment="Center" FontSize="20" FontFamily="/fonts/#Ubuntu" HorizontalAlignment="Left" Text="Добавление журналиста"/>
                             </Grid>
                             <Border Grid.Row="2" BorderBrush="#D8D8D8" BorderThickness="0 1 0 0">
-                                <Grid Grid.Row="2" Height="100" VerticalAlignment="Top">
+                                <Grid Grid.Row="2" Height="150" VerticalAlignment="Top">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border x:Name="borderPassportID"  CornerRadius="10" BorderBrush="#D8D8D8" BorderThickness="2" Margin="5 5 5 0">
+                                            <xctk:MaskedTextBox  Mask="00 00 000000"  IsKeyboardFocusedChanged="tbxPassportId_IsKeyboardFocusedChanged"  x:Name="tbxPassportId" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock  Foreground="#bfbfbf" Grid.Column="1" FontSize="20" Text="Номер паспорта" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
+                                    </Grid>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -333,7 +458,7 @@
                                             </Border>
                                         </Grid>
                                     </Grid>
-                                    <Button x:Name="btnAddJournalist" Click="btnAddJournalist_Click" Margin="20 5 20 5" Style="{DynamicResource StyleButton}" Grid.Row="1" Content="Добавить журналиста"/>
+                                    <Button x:Name="btnAddJournalist" Click="btnAddJournalist_Click" Margin="20 5 20 5" Style="{DynamicResource StyleButton}" Grid.Row="2" Content="Добавить журналиста"/>
                                 </Grid>
                             </Border>
                         </Grid>
@@ -358,66 +483,98 @@
                                 </Viewbox>
                                 <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" FontWeight="Bold" VerticalAlignment="Center" FontSize="20" FontFamily="/fonts/#Ubuntu" Text="Добавление RSS"/>
                             </Grid>
-                            <Border Grid.Row="2" BorderBrush="#D8D8D8" BorderThickness="0 1 0 0">
+                            <Border  Grid.Row="2" BorderBrush="#D8D8D8" BorderThickness="0 1 0 0">
                                 <Grid Grid.Row="2" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.5*"/>
-                                        <RowDefinition Height="40"/>
-                                        <RowDefinition Height="0.2*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="2" FontWeight="Bold" VerticalAlignment="Center" FontSize="20" FontFamily="/fonts/#Ubuntu" HorizontalAlignment="Center" Text="Список RSS"/>
-                                    <Border Grid.Row="3">
-                                        <Border Margin="5 5 5 5" Grid.Row="1" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
-                                            <ListView 
-                                            x:Name="kistviewRSS"
-                                            BorderThickness="0"
-                                            Margin="3"
-                                            >
-                                            </ListView>
-                                        </Border>
-                                    </Border>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="0.5*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border x:Name="borderNameRSS"  CornerRadius="10" BorderBrush="#D8D8D8" BorderThickness="2" Margin="5 5 5 0">
-                                            <TextBox IsKeyboardFocusedChanged="textBox_IsKeyboardFocusedChanged"  x:Name="tbxNameRSS" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
-                                        </Border>
-                                        <TextBlock IsHitTestVisible="False" Foreground="#bfbfbf" Margin="19 3.6 0 0" VerticalAlignment="Center" FontFamily="/fonts/#Ubuntu" Grid.Row="1" FontSize="20" Text="Ссылка на RSS">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Text, ElementName = tbxNameRSS}" Value="">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <Grid Grid.Column="1">
-                                            <Border x:Name="borderCmbRSS" Background="#ECECEC" CornerRadius="4" Grid.Row="1" Margin="0 3.3 5 0" BorderBrush="Transparent" BorderThickness="2" >
-                                                <ComboBox 
-                                                     x:Name="cmbTypeRSS"
-                                                     BorderThickness="0"
-                                                     GotFocus="comboBox_GotFocus"
-                                                     Margin="2"
-                                                     Background="White" HorizontalAlignment="Stretch" 
-                                                     BorderBrush="#FF9E9E9E"
-                                                    >
-                                                    <ComboBoxItem VerticalAlignment="Top">
-                                                        <TextBlock FontSize="20" Text="Текст"/>
-                                                    </ComboBoxItem>
-                                                    <ComboBoxItem>
-                                                        <TextBlock FontSize="20" Text="Видео"/>
-                                                    </ComboBoxItem>
-                                                </ComboBox>
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="100"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Button x:Name="btnAddRSS" Click="btnAddRSS_Click" Margin="20 5 20 5" Style="{DynamicResource StyleButton}" Grid.Row="1" Content="Добавить RSS"/>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="0.5*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border x:Name="borderNameRSS"  CornerRadius="10" BorderBrush="#D8D8D8" BorderThickness="2" Margin="5 5 5 0">
+                                                    <TextBox IsKeyboardFocusedChanged="textBox_IsKeyboardFocusedChanged"  x:Name="tbxNameRSS" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <TextBlock IsHitTestVisible="False" Foreground="#bfbfbf" Margin="19 3.6 0 0" VerticalAlignment="Center" FontFamily="/fonts/#Ubuntu" Grid.Row="1" FontSize="20" Text="Ссылка на RSS">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Text, ElementName = tbxNameRSS}" Value="">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <Grid Grid.Column="1">
+                                                    <Border x:Name="borderCmbRSS" Background="#ECECEC" CornerRadius="4" Grid.Row="1" Margin="0 3.3 5 0" BorderBrush="Transparent" BorderThickness="2" >
+                                                        <ComboBox 
+                                                              x:Name="cmbTypeRSS"
+                                                              BorderThickness="0"
+                                                              GotFocus="comboBox_GotFocus"
+                                                              Margin="2"
+                                                              Background="White" HorizontalAlignment="Stretch" 
+                                                              BorderBrush="#FF9E9E9E"
+                                                            >
+                                                            <ComboBoxItem VerticalAlignment="Top">
+                                                                <TextBlock FontSize="20" Text="Текст"/>
+                                                            </ComboBoxItem>
+                                                            <ComboBoxItem>
+                                                                <TextBlock FontSize="20" Text="Видео"/>
+                                                            </ComboBoxItem>
+                                                        </ComboBox>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Row="1" Margin="5 5 5 5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="0.12*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button VerticalAlignment="Top" Grid.Column="1" x:Name="btnRemoveRSS" Click="btnRemoveRSS_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                                <Viewbox Stretch="Fill" Height="20" Width="19" >
+                                                    <Canvas Height="298.667" Width="298.667">
+                                                        <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Button>
+                                            <Border x:Name="borderListViewRSS" Background="#ededed" Grid.Row="2" BorderBrush="#D8D8D8" BorderThickness="2" CornerRadius="10">
+                                                <ListView 
+                                                    x:Name="listViewRSS"
+                                                    Margin="3"  
+                                                    Background="#ededed"
+                                                    BorderThickness="0"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                    HorizontalContentAlignment="Stretch"
+                                                    SelectionMode="Single"
+                                                    SelectionChanged="listViewRSS_SelectionChanged"
+                                                    MouseDown="listView_MouseDown">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid >
+                                                                <Border BorderBrush="#D8D8D8" BorderThickness="1" Margin="3" Background="White" CornerRadius="5">
+                                                                    <Grid Margin="2">
+                                                                        <TextBlock  Margin="2 2 1 2" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="17" Text="{Binding LinkRss}"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
                                             </Border>
                                         </Grid>
                                     </Grid>
-                                    <Button x:Name="btnAddRSS" Click="btnAddRSS_Click" Margin="20 5 20 5" Style="{DynamicResource StyleButton}" Grid.Row="1" Content="Добавить RSS"/>
                                 </Grid>
                             </Border>
                         </Grid>
