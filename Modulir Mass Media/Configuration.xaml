@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Modulir_Mass_Media"
-        xmlns:converters="clr-namespace:Modulir_Mass_Media.Helpers"
+        xmlns:vm ="clr-namespace:Modulir_Mass_Media.Classes"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Configuration"
@@ -17,6 +16,9 @@
         Background="Transparent"
         ResizeMode="CanResize"
         >
+    <Window.DataContext>
+        <vm:ViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="StyleButton" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -32,7 +34,7 @@
                                 <Setter Property="Background" TargetName="border" Value="#265370"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#265370"/>
+                                <Setter Property="Background" TargetName="border" Value="#5488ab"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="True">
                                 <Setter Property="TextElement.FontWeight" TargetName="contentPresenter" Value="Bold"/>
@@ -195,6 +197,7 @@
                                               SelectionMode="Single"
                                               HorizontalContentAlignment="Stretch"
                                               MouseDown="listView_MouseDown"
+                                              ItemsSource="{Binding JournalistsWorking}"
                                               >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -253,6 +256,7 @@
                                         SelectionMode="Single"
                                         SelectionChanged="listViewSMI_SelectionChanged"
                                         MouseDown="listView_MouseDown"
+                                        ItemsSource="{Binding Medias}"
                                         >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -278,7 +282,7 @@
                                         <ColumnDefinition Width="0.1*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="btnRemoveNotBussyJornalist" Click="btnRemoveNotBussyJornalist_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                    <Button x:Name="btnRemoveNotBussyJornalist" Click="btnRemoveNotBussyJornalist_Click" Margin="5,0,0,0" Style="{DynamicResource StyleButton}" Height="23" VerticalAlignment="Top">
                                         <Viewbox  Stretch="Fill" Height="20" Width="19" >
                                             <Canvas Height="298.667" Width="298.667">
                                                 <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
@@ -296,6 +300,7 @@
                                               HorizontalContentAlignment="Stretch"
                                               SelectionChanged="listViewNotBusyJournalist_SelectionChanged"
                                               MouseDown="listView_MouseDown"
+                                              ItemsSource="{Binding JournalistsNotBusy}"
                                               >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -414,7 +419,7 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Border x:Name="borderPassportID"  CornerRadius="10" BorderBrush="#D8D8D8" BorderThickness="2" Margin="5 5 5 0">
-                                            <xctk:MaskedTextBox  Mask="00 00 000000"  IsKeyboardFocusedChanged="tbxPassportId_IsKeyboardFocusedChanged"  x:Name="tbxPassportId" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
+                                            <xctk:MaskedTextBox Mask="00 00 000000"  IsKeyboardFocusedChanged="tbxPassportId_IsKeyboardFocusedChanged"  x:Name="tbxPassportId" FontSize="20" Background="#FCFCFC" BorderThickness="0" Margin="10 0 10 0" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
                                         </Border>
                                         <TextBlock  Foreground="#bfbfbf" Grid.Column="1" FontSize="20" Text="Номер паспорта" FontFamily="/fonts/#Ubuntu" VerticalAlignment="Center"/>
                                     </Grid>
@@ -559,7 +564,8 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     SelectionMode="Single"
                                                     SelectionChanged="listViewRSS_SelectionChanged"
-                                                    MouseDown="listView_MouseDown">
+                                                    MouseDown="listView_MouseDown"
+                                                    ItemsSource="{Binding RssParser}">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid >

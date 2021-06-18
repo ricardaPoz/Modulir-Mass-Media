@@ -20,8 +20,7 @@ namespace Modulir_Mass_Media.Classes
         Audio,
         Video
     }
-
-    class RssParser
+    public class RssParser
     {
         /*public delegate void RssParserHendler(object sender, EventArgs e);
         public event RssParserHendler ParseCompleted;*/

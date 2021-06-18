@@ -25,15 +25,15 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="3"  Background="#0075FF">
+                        <Border x:Name="border" CornerRadius="3"  Background="#76B2DA">
                             <ContentPresenter x:Name="contentPresenter" Margin="15 0 15 0" HorizontalAlignment="Center"  VerticalAlignment="Center" TextElement.FontSize="17"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#1345AE"/>
+                                <Setter Property="Background" TargetName="border" Value="#639DC3"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#1345AE"/>
+                                <Setter Property="Background" TargetName="border" Value="#5488ab"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="True">
                                 <Setter Property="TextElement.FontWeight" TargetName="contentPresenter" Value="Bold"/>
@@ -359,7 +359,7 @@
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                         <Grid>
-                            <MediaElement x:Name="videoPlayer"/>
+                            <MediaElement VerticalAlignment="Top" Height="360" x:Name="videoPlayer"/>
                             <TextBlock FontSize="20" TextWrapping="Wrap" x:Name="text" FontFamily="/fonts/#Ubuntu"/>
                         </Grid>
                     </ScrollViewer>
