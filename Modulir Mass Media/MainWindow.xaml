@@ -7,14 +7,13 @@
         xmlns:local1="clr-namespace:Modulir_Mass_Media.Classes" 
         xmlns:local2="clr-namespace:Modulir_Mass_Media.Helpers"
         mc:Ignorable="d"
-        MinHeight="518" 
-        MinWidth="700" 
+        MinHeight="700" 
+        MinWidth="1200" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="CanResize"
-        SizeChanged="Window_SizeChanged"
         >
     <WindowChrome.WindowChrome>
         <WindowChrome 
@@ -22,6 +21,48 @@
         ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <local2:IsNullConverter x:Key="nullConverter"/>
+        <Style x:Key="TabItemStyleSub" TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Margin="2 0 0 0">
+                            <Border x:Name="mainBorder" Background="#464650"  Margin="0">
+                                <Border x:Name="innerBorder" Background="#242730"  Margin="-1" Opacity="0"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Client, Converter={StaticResource nullConverter}}" Value="True">
+                                <Setter Property="Visibility" TargetName="templateRoot" Value="Collapsed"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#515159"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,-2,0"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <Style x:Key="StyleButton" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -29,7 +70,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" CornerRadius="3"  Background="#76B2DA">
-                            <ContentPresenter x:Name="contentPresenter" Margin="15 0 15 0" Content="Читать подробнее" HorizontalAlignment="Center"  VerticalAlignment="Center" TextElement.FontSize="17"/>
+                            <ContentPresenter x:Name="contentPresenter" Margin="15 0 15 0"  HorizontalAlignment="Center"  VerticalAlignment="Center" TextElement.FontSize="17"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -51,7 +92,38 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border Margin="10 0 0 0" x:Name="item_border" CornerRadius="10"  Background="#F5F5F5">
+                        <Border Margin="10 5 5 0" x:Name="item_border" CornerRadius="10"  Background="#F5F5F5">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="item_border" Value="#D8D8D8"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemSubsribed">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border CornerRadius="5" Margin="10 5 5 0" x:Name="item_border" Background="#F5F5F5">
                             <ContentPresenter/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -63,7 +135,7 @@
                                     <Condition Property="Selector.IsSelectionActive" Value="True"/>
                                     <Condition Property="IsSelected" Value="True"/>
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Background" TargetName="item_border" Value="#F5F5F5"/>
+                                <Setter Property="Background" TargetName="item_border" Value="#D8D8D8"/>
                             </MultiTrigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -78,9 +150,6 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Window.DataContext>
-        <local1:ModulationMediaWork/>
-    </Window.DataContext>
     <Border 
         x:Name="container" 
         MouseDown="container_MouseDown" 
@@ -181,133 +250,138 @@
                                 Text="Все новости"/>
                         </TabItem.Header>
                         <TabItem.Content>
-                            <Grid>
-                                <ListBox 
-                                    x:Name="listView"
-                                    Grid.Row="1" 
-                                    ItemContainerStyle="{DynamicResource StyleListView}"  
-                                    BorderThickness="0" 
-                                    Background="#F5F5F5" 
-                                    HorizontalContentAlignment="Stretch" 
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                    ItemsSource="{Binding MassMediaInformationProducts}" 
-                                    >
-                                    <ListBox.ItemTemplate >
-                                        <DataTemplate>
-                                            <Border BorderThickness="1" BorderBrush="#D8D8D8" Background="White" CornerRadius="10" Margin="0 10 10 0">
-                                                <Grid Height="120" Background="#FFFFFF" Margin="10 10 0 10">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1.5*"/>
-                                                        <ColumnDefinition Width="8.5*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Image Grid.Column="0" HorizontalAlignment="Center" Margin="0 0 10 0" Source="https://icdn.lenta.ru/images/2021/05/09/05/20210509050746907/pic_a52ea4d555a482c55c87acd0a5bcaff0.jpg"/>
-                                                    <Grid  Grid.Column="1" Margin="0 0 10 10">
-                                                        <!--Height="auto" проверить на баг -->
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*"/>
-                                                            <RowDefinition Height="*"/>
-                                                            <RowDefinition Height="*"/>
-                                                            <RowDefinition Height="*"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Grid Grid.Row="0" >
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="*"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
-                                                            <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0" HorizontalAlignment="Right"  Text="{Binding DatePublication}"/>
-                                                        </Grid>
-                                                        <Viewbox Grid.Row="1" HorizontalAlignment="Left">
-                                                            <TextBlock  FontWeight="Bold" Height="auto" TextWrapping="Wrap"  FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
-                                                        </Viewbox>
-                                                        <TextBlock TextAlignment="Left" Height="auto" TextTrimming="CharacterEllipsis" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}" />
-                                                        <Grid Grid.Row="3">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="0.4*"/>
-                                                                <ColumnDefinition Width="0.6*"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Button Style="{DynamicResource StyleButton}" VerticalAlignment="Stretch" HorizontalAlignment="Left"  Grid.Row="3"/>
-                                                            <Grid Grid.Column="1" Margin="0"  HorizontalAlignment="Stretch">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                    <ColumnDefinition  Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Center">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
+                            <Border Background="#F5F5F5"  CornerRadius="15" Margin="3">
+                                <Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="0.2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="0 25 0 0" Grid.Column="1" Height="100" Style="{DynamicResource StyleButton}" x:Name="btnReadMore" Click="btnReadMore_Click" Content="Читать подробнее" VerticalAlignment="Top" HorizontalAlignment="Center"  Grid.Row="3"/>
+                                        <Border Margin="5" CornerRadius="5" BorderThickness="1" BorderBrush="#D8D8D8">
+                                            <ListBox 
+                                                x:Name="listViewAllMediaProduct"
+                                                Grid.Row="1" 
+                                                Margin="7"
+                                                ItemContainerStyle="{DynamicResource StyleListView}"  
+                                                BorderThickness="0" 
+                                                Background="#F5F5F5" 
+                                                HorizontalContentAlignment="Stretch" 
+                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                ItemsSource="{Binding MediaProduct}" 
+                                                                                    >
+                                                <ListBox.ItemTemplate >
+                                                    <DataTemplate>
+                                                        <Border x:Name="borderItemList" BorderThickness="1" BorderBrush="#D8D8D8" Background="White" CornerRadius="10" Margin="0 10 10 0">
+                                                            <Grid Height="120" Background="#FFFFFF" Margin="10 10 0 10">
+                                                                <Grid Margin="0 0 10 10">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="*"/>
+                                                                        <RowDefinition Height="*"/>
+                                                                        <RowDefinition Height="*"/>
+                                                                        <RowDefinition Height="*"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid Grid.Row="0" >
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
+                                                                        <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0" HorizontalAlignment="Right"  Text="{Binding DatePublication}"/>
+                                                                    </Grid>
+                                                                    <Viewbox Grid.Row="1" HorizontalAlignment="Left">
+                                                                        <TextBlock  FontWeight="Bold" Height="auto" TextWrapping="Wrap"  FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
                                                                     </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
-                                                                </Grid>
-                                                                <Grid Grid.Column="1">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Left">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
-                                                                    </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
-                                                                </Grid>
-                                                                <Grid Grid.Column="2">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Left">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
-                                                                    </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
-                                                                </Grid>
-                                                                <Grid Grid.Column="3">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Left">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
-                                                                    </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
-                                                                </Grid>
-                                                                <Grid Grid.Column="4">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Left">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
-                                                                    </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
-                                                                </Grid>
-                                                                <Grid Grid.Column="5">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.6*"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Viewbox HorizontalAlignment="Left">
-                                                                        <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
-                                                                    </Viewbox>
-                                                                    <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                    <TextBlock TextAlignment="Left" Height="auto" TextTrimming="CharacterEllipsis" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}" />
+                                                                    <Grid Grid.Row="3">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="0.4*"/>
+                                                                            <ColumnDefinition Width="0.6*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid Grid.Column="1" Margin="0"  HorizontalAlignment="Stretch">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                                <ColumnDefinition  Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Grid>
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Center">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="1">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Left">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="2">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Left">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="3">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Left">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="4">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Left">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="5">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="0.6*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <Viewbox HorizontalAlignment="Left">
+                                                                                    <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
+                                                                                </Viewbox>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            </Grid>
+                                                                        </Grid>
+                                                                    </Grid>
                                                                 </Grid>
                                                             </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Border>
                         </TabItem.Content>
                     </TabItem>
-                    <TabItem Style="{DynamicResource TabItemStyle}">
+                    <TabItem Style="{DynamicResource TabItemStyleSub}">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock 
@@ -318,12 +392,170 @@
                         </TabItem.Header>
                         <TabItem.Content>
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Label FontSize="30">dasdsadsa</Label>
-                                <Label FontFamily="/Fonts/#PTSans" Grid.Row="1" FontSize="30">dasdsadsa</Label>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="0.1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="btnReadNews" Click="btnReadNews_Click" Margin="5 0 5 5" Style="{DynamicResource StyleButton}" Content="Читать подробнее" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Row="1"/>
+                                    <Border CornerRadius="5" Background="White" Margin="5 0 5 5">
+                                        <ListBox 
+                                                x:Name="listViewSubNews"
+                                                Grid.Row="1" 
+                                                ItemContainerStyle="{DynamicResource StyleListView}"  
+                                                BorderThickness="0" 
+                                                Background="#F5F5F5" 
+                                                HorizontalContentAlignment="Stretch" 
+                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                ItemsSource="{Binding MediaProductBySubscription}"
+                                                Margin="3"
+                                                >
+                                            <ListBox.ItemTemplate >
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1" BorderBrush="#D8D8D8" Background="White" CornerRadius="10" Margin="0 10 10 0">
+                                                        <Grid Height="120" Background="#FFFFFF" Margin="10 10 0 10">
+                                                            <Grid Margin="0 0 10 10">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid Grid.Row="0" >
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16"  Text="{Binding NameMassMedia}" />
+                                                                    <TextBlock Grid.Column="1" Foreground="#818181" FontSize="16" TextAlignment="Justify" VerticalAlignment="Center"  Grid.Row="0" HorizontalAlignment="Right"  Text="{Binding DatePublication}"/>
+                                                                </Grid>
+                                                                <Viewbox Grid.Row="1" HorizontalAlignment="Left">
+                                                                    <TextBlock  FontWeight="Bold" Height="auto" TextWrapping="Wrap"  FontSize="23" Grid.Row="1" Text="{Binding InformationProduct.TitleProduct}"/>
+                                                                </Viewbox>
+                                                                <TextBlock TextAlignment="Left" Height="auto" TextTrimming="CharacterEllipsis" FontSize="17" Grid.Row="2" Text="{Binding InformationProduct.ContentProduct}" />
+                                                                <Grid Grid.Row="3">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="0.4*"/>
+                                                                        <ColumnDefinition Width="0.6*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid Grid.Column="1" Margin="0"  HorizontalAlignment="Stretch">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                            <ColumnDefinition  Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Center">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                        <Grid Grid.Column="1">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Left">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                        <Grid Grid.Column="2">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Left">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                        <Grid Grid.Column="3">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Left">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                        <Grid Grid.Column="4">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Left">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                        <Grid Grid.Column="5">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.6*"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Viewbox HorizontalAlignment="Left">
+                                                                                <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
+                                                                            </Viewbox>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Column="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.08*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="0.112*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Row="2" x:Name="unsubscribe" Click="unsubscribe_Click" Margin="3 2 3 5" Grid.Column="1" Content="Отписаться" Style="{StaticResource StyleButton}"/>
+                                    <Border CornerRadius="5" Background="White" Margin="3">
+                                        <TextBlock FontSize="23" FontWeight="Bold" FontFamily="/fonts/#Ubuntu"  Text="Ваши подписки" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <Border Grid.Row="1" CornerRadius="5" Background="#F5F5F5" Margin="5 5 5 5">
+                                        <ListView Margin="3" 
+                                                  x:Name="clientSubscribedMedia" 
+                                                  BorderThickness="0"
+                                                  SelectionMode="Single"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                  HorizontalContentAlignment="Stretch"
+                                                  Background="#F5F5F5"
+                                                  ItemContainerStyle="{DynamicResource ListBoxItemSubsribed}"
+                                                  ItemsSource="{Binding SubscriptionMassMedia}"
+                                                  >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="White" BorderThickness="1" BorderBrush="#D8D8D8" CornerRadius="10">
+                                                        <Grid Margin="8 10 8 10" Background="White" Height="35">
+                                                            <Border VerticalAlignment="Center">
+                                                                <TextBlock TextTrimming="CharacterEllipsis" Margin="5 0 15 0" FontSize="18" FontWeight="Bold" FontFamily="/fonts/#Ubuntu" Text="{Binding NameMedia}"/>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </TabItem.Content>
                     </TabItem>

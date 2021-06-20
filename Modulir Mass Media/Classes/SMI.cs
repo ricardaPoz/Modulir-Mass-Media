@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Modulir_Mass_Media.Classes
 {
+ 
+
     public class MassMediaReleaseInformationProductEventArgs
     {
         public MassMediaInformationProduct MassMediaInformationProduct { get; private set; }
@@ -33,8 +35,8 @@ namespace Modulir_Mass_Media.Classes
         public void HiringEmployee(Journalist journalist)
         {
             listJournalist.Add(journalist);
-            journalist.Employment();
             journalist.InformationProductCreated += Journalist_InformationProductCreated;
+            journalist.Employment();
         }
 
         // Увольнение с работы журналиста 

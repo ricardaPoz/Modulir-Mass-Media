@@ -273,7 +273,7 @@ namespace Modulir_Mass_Media
                 DisplayNotification(Brushes.Red, "Введите ссылку на RSS или выберите тип RSS)", ElementChanged.AddRSS);
                 return;
             }
-            else ((ViewModel)DataContext).AddRSSCommand.Execute(new Tuple<object, object>(tbxNameRSS.Text, cmbTypeRSS.Text));
+            else ((ViewModel)DataContext).AddRSSCommand.Execute(new Tuple<object, object>(tbxNameRSS.Text, (TypeRssInfo)Enum.Parse(typeof(TypeRssInfo) , cmbTypeRSS.Text == "Текст" ? "Text" : "Video")));
 
         }
 
@@ -300,7 +300,7 @@ namespace Modulir_Mass_Media
                 string nameMedia = (listViewSMI.SelectedValue as MassMedia).NameMedia;
                 string passportJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).PassportId;
                 string nameJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).NameJournalist;
-                string typeJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).TypeJournalist;
+                JournalistType typeJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).TypeJournalist;
 
                 ((ViewModel)DataContext).RecruitmentCommand.Execute(new Tuple<object, object, object, object, object>(nameMedia, passportJournalist, nameJournalist, typeJournalist, listViewNotBusyJournalist.SelectedValue as Journalist));
             }

@@ -12,6 +12,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="CanResize"
+        Closing="Window_Closing"
         >
     <WindowChrome.WindowChrome>
         <WindowChrome 
@@ -159,213 +160,229 @@
                     </Viewbox>
                 </StackPanel>
             </Border>
-            <Grid HorizontalAlignment="Center" Margin="70 5 70 10" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.2*"/>
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="2">
+            <Grid  Margin="0" Grid.Row="1">
+             
+                <Grid Grid.Column="0" Margin="70 10 70 10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="0.16*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="2" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="0.3*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border MaxHeight="70" Background="#F2F2F2" CornerRadius="5" Margin="0 0 10 0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.16*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="2" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border MaxHeight="70" Background="#F2F2F2" CornerRadius="5" Margin="0 0 10 0">
                                 <Grid>
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource Like}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#00A1FB"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#00A1FB"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="cbxLike" Checked="cbxLike_Checked" Unchecked="cbxLike_Unchecked"
+                                              >
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid Background="Transparent">
+                                                            <Viewbox  Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource Like}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#00A1FB"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#00A1FB"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbxLike" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="cbxHaHa" Checked="cbxHaHa_Checked" Unchecked="cbxHaHa_Unchecked">
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid  Background="Transparent">
+                                                            <Viewbox Height="40"  Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource HaHa}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#59CB38"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#59CB38"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbxHaHa" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid >
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="cbxWow" Checked="cbxWow_Checked" Unchecked="cbxWow_Unchecked">
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid  Background="Transparent">
+                                                            <Viewbox Height="40" Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource Wow}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#F9BA03"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#F9BA03"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbxWow" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                    <Grid Grid.Column="3">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="cbxSad" Checked="cbxSad_Checked" Unchecked="cbxSad_Unchecked">
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid  Background="Transparent">
+                                                            <Viewbox Height="40" Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource Sad}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#684BAD"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#684BAD"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbSad" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                    <Grid Grid.Column="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="cbxAngry" Checked="cbxAngry_Checked" Unchecked="cbxAngry_Unchecked">
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid  Background="Transparent">
+                                                            <Viewbox Height="40" Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource Angry}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#F8412F"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#F8412F"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbAngry" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                    <Grid Grid.Column="5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="0.6*"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="DisLike" Checked="DisLike_Checked" Unchecked="DisLike_Unchecked">
+                                            <CheckBox.Template>
+                                                <ControlTemplate TargetType="CheckBox">
+                                                    <Border x:Name="border" CornerRadius="5">
+                                                        <Grid  Background="Transparent">
+                                                            <Viewbox Height="40" Margin="0 0 14 0">
+                                                                <Path x:Name="Path" Style="{DynamicResource DisLike}"/>
+                                                            </Viewbox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#D20909"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#D20909"/>
+                                                            <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </CheckBox.Template>
+                                        </CheckBox>
+                                        <TextBlock Grid.Row="1" x:Name="tbDisLike" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    </Grid>
                                 </Grid>
-                                <Grid Grid.Column="1">
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource HaHa}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#59CB38"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#59CB38"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                </Grid >
-                                <Grid Grid.Column="2">
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource Wow}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#F9BA03"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#F9BA03"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                </Grid>
-                                <Grid Grid.Column="3">
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource Sad}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#684BAD"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#684BAD"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                </Grid>
-                                <Grid Grid.Column="4">
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource Angry}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#F8412F"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#F8412F"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                </Grid>
-                                <Grid Grid.Column="5">
-                                    <CheckBox>
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <Border x:Name="border" CornerRadius="5">
-                                                    <Grid  Background="Transparent">
-                                                        <Viewbox Height="40" Margin="0 0 10 19">
-                                                            <Path x:Name="Path" Style="{DynamicResource DisLike}"/>
-                                                        </Viewbox>
-                                                        <TextBlock x:Name="textBlock" FontSize="16" Foreground="#8B8B8B" Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="1"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#D20909"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" TargetName="border" Value="#D20909"/>
-                                                        <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
-                                                        <Setter TargetName="textBlock" Property="Foreground" Value="#FFFFFF"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                </Grid>
-                            </Grid>
-                        </Border>
-                        <Button MaxHeight="70" Style="{DynamicResource StyleButton}" Grid.Row="2" Grid.Column="1" Content="Подписаться"/>
-                    </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <Grid>
-                            <MediaElement VerticalAlignment="Top" Height="360" x:Name="videoPlayer"/>
-                            <TextBlock FontSize="20" TextWrapping="Wrap" x:Name="text" FontFamily="/fonts/#Ubuntu"/>
+                            </Border>
+                            <Button x:Name="btnSubscribe" MaxHeight="70" Style="{DynamicResource StyleButton}" Grid.Row="2" Grid.Column="1" Content="Подписаться" Click="btnSubscribe_Click"/>
                         </Grid>
-                    </ScrollViewer>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <Grid>
+                                <MediaElement VerticalAlignment="Top" Visibility="Collapsed" Height="360" x:Name="videoPlayer"/>
+                                <TextBlock FontSize="20" TextWrapping="Wrap" Visibility="Collapsed" x:Name="textBlockContent"  FontFamily="/fonts/#Ubuntu"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                    <TextBlock Margin="0 0 0 0" FontFamily="/fonts/#Ubuntu" TextWrapping="Wrap" x:Name="textBoxTitle"  FontWeight="Bold" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock  Foreground="Gray" FontFamily="/fonts/#Ubuntu" Grid.Row="1" x:Name="textBoxDatePublication" FontSize="16"/>
                 </Grid>
-                <TextBlock Margin="0 0 0 0" FontFamily="/fonts/#Ubuntu" TextWrapping="Wrap" Text="МИД Швеции вызвал посла России из-за ответных санкций" FontWeight="Bold" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBlock  Foreground="Gray" FontFamily="/fonts/#Ubuntu" Grid.Row="1" Text="13 июня 2021 16:30" FontSize="16"/>
             </Grid>
         </Grid>
     </Border>

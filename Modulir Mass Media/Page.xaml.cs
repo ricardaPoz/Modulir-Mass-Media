@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using YoutubeExplode;
 using YoutubeExplode.Videos.Streams;
+using Modulir_Mass_Media.Classes;
+using Modulir_Mass_Media.Helpers;
 
 namespace Modulir_Mass_Media
 {
@@ -19,35 +21,84 @@ namespace Modulir_Mass_Media
     /// </summary>
     public partial class Page : Window
     {
+        private MassMediaInformationProduct mediaProduct;
+
         public  Page()
         {
             InitializeComponent();
-            text.Text = " Вашингтон, 13 июня. Совместные затраты России и Китая на оборону превзошли военный бюджет США, заявил председатель Комитета начальников штабов американских ВС генерал Марк Милли.";
-            text.Text += "\n\n Этой причиной сенатор Джим Инхоф объяснил необходимость увеличения военного финансирования в Соединенных Штатах. По его словам, при подсчете бюджетов стоит учитывать покупательную способность валют. В итоге выходит, что КНР тратит на армию 604 миллиарда долларов, а Россия — около 200 миллиардов долларов.";
-            text.Text += "\n\n При этом, по информации аналитического института SIPRI, номинальные траты на оборону за 2020 год в США составили 778 миллиардов долларов, в Китае — 252 миллиарда долларов и 61,7 миллиарда долларов в России.";
-            text.Text += "\n\n Ранее генерал Милли жаловался на то, что Москва и Пекин продолжают скрывать информацию о затратах на военные нужды, а потому данные об оборонных бюджетах остаются загадкой для США.";
-            text.Text += "\n\n Ранее генерал Милли жаловался на то, что Москва и Пекин продолжают скрывать информацию о затратах на военные нужды, а потому данные об оборонных бюджетах остаются загадкой для США.";
-            //PlayV();
+           
+        }
+        public Page(ViewModel viewModel, MassMediaInformationProduct mediaProduct)
+        {
+            InitializeComponent();
+            DataContext = viewModel;
+            this.mediaProduct = mediaProduct;
+
+            #region 
+            tbxLike.Text = mediaProduct.InformationProduct.Like.ToString();
+            tbxWow.Text = mediaProduct.InformationProduct.Wow.ToString();
+            tbSad.Text = mediaProduct.InformationProduct.Sad.ToString();
+            tbAngry.Text = mediaProduct.InformationProduct.Angry.ToString();
+            tbDisLike.Text = mediaProduct.InformationProduct.Like.ToString();
+            tbxHaHa.Text = mediaProduct.InformationProduct.HaHa.ToString();
+
+            if (mediaProduct.InformationProduct.ContentProduct.Contains("youtube"))
+            {
+                videoPlayer.Visibility = Visibility.Visible;
+                textBoxTitle.Text = mediaProduct.InformationProduct.TitleProduct;
+                textBoxDatePublication.Text = mediaProduct.DatePublication.ToString();
+                PlayVideo(mediaProduct.InformationProduct.ContentProduct);
+            }
+            else
+            {
+                textBlockContent.Visibility = Visibility.Visible;
+                textBlockContent.Text = mediaProduct.InformationProduct.ContentProduct;
+                textBlockContent.Text = mediaProduct.InformationProduct.ContentProduct;
+                textBoxTitle.Text = mediaProduct.InformationProduct.TitleProduct;
+                textBoxDatePublication.Text = mediaProduct.DatePublication.ToString();
+            }
+            #endregion
         }
 
-        private async void PlayV()
+        private async void PlayVideo(string link)
         {
             var youtube = new YoutubeClient();
-            var streamManifest = await youtube.Videos.Streams.GetManifestAsync("https://www.youtube.com/watch?v=JdfxN-2vEzE");
+            var streamManifest = await youtube.Videos.Streams.GetManifestAsync(link);
             var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
             videoPlayer.Source = new Uri(streamInfo.Url);
         }
         private void cmbUncoverAndHide_Unchecked(object sender, RoutedEventArgs e) => WindowState = WindowState.Normal;
         private void cmbUncoverAndHide_Checked(object sender, RoutedEventArgs e) => WindowState = WindowState.Maximized;
         private void closeForm_MouseDown(object sender, MouseButtonEventArgs e) => Close();
-
         private void container_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left) DragMove();
         }
 
-        private void chbLike_Click(object sender, RoutedEventArgs e)
+        private void btnSubscribe_Click(object sender, RoutedEventArgs e)
         {
+            ((ViewModel)DataContext).SubscribedToMediaCommand.Execute(mediaProduct);
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ((ViewModel)DataContext).PageClosingCommand.Execute(new EmotionCommandParametr(mediaProduct.InformationProduct.ProductType, mediaProduct.InformationProduct.LinkProduct, int.Parse(tbxLike.Text), int.Parse(tbxHaHa.Text), int.Parse(tbxWow.Text), int.Parse(tbSad.Text), int.Parse(tbAngry.Text), int.Parse(tbDisLike.Text)));
+        }
+
+        #region Эмоции
+        private void cbxLike_Checked(object sender, RoutedEventArgs e) => tbxLike.Text = (int.Parse(tbxLike.Text) + 1).ToString();
+        private void cbxLike_Unchecked(object sender, RoutedEventArgs e) => tbxLike.Text = (int.Parse(tbxLike.Text) - 1).ToString();
+        private void cbxHaHa_Checked(object sender, RoutedEventArgs e) => tbxHaHa.Text = (int.Parse(tbxHaHa.Text) + 1).ToString();
+        private void cbxHaHa_Unchecked(object sender, RoutedEventArgs e) => tbxHaHa.Text = (int.Parse(tbxHaHa.Text) - 1).ToString();
+        private void cbxWow_Checked(object sender, RoutedEventArgs e) => tbxWow.Text = (int.Parse(tbxWow.Text) + 1).ToString();
+        private void cbxWow_Unchecked(object sender, RoutedEventArgs e) => tbxWow.Text = (int.Parse(tbxWow.Text) - 1).ToString();
+        private void cbxSad_Checked(object sender, RoutedEventArgs e) => tbSad.Text = (int.Parse(tbSad.Text) + 1).ToString();
+        private void cbxSad_Unchecked(object sender, RoutedEventArgs e) => tbSad.Text = (int.Parse(tbSad.Text) - 1).ToString();
+        private void cbxAngry_Checked(object sender, RoutedEventArgs e) => tbAngry.Text = (int.Parse(tbAngry.Text) + 1).ToString();
+        private void cbxAngry_Unchecked(object sender, RoutedEventArgs e) => tbAngry.Text = (int.Parse(tbAngry.Text) - 1).ToString();
+        private void DisLike_Checked(object sender, RoutedEventArgs e) => tbDisLike.Text = (int.Parse(tbDisLike.Text) + 1).ToString();
+        private void DisLike_Unchecked(object sender, RoutedEventArgs e) => tbDisLike.Text = (int.Parse(tbDisLike.Text) - 1).ToString();
+
+        #endregion
     }
 }

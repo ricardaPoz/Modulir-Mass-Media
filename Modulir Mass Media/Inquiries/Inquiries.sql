@@ -12,17 +12,14 @@ CREATE TABLE [dbo].[Text] (
     [link]              NVARCHAR (500) NOT NULL,
     [date_publications] DATETIME           NOT NULL,
     [take]              BIT            NOT NULL,
-    [category]          NVARCHAR(20)    NOT NULL,
-    PRIMARY KEY CLUSTERED ([id] ASC)
-);
-
-CREATE TABLE [dbo].[Audio] (
-    [id]            INT            IDENTITY (1, 1) NOT NULL,
-    [title]             NVARCHAR (500) NOT NULL,
-    [link]              NVARCHAR (500) NOT NULL,
-    [date_publications] DATETIME          NOT NULL,
-    [take]              BIT            NOT NULL,
-    [category]          NVARCHAR(20)    NOT NULL,
+    [category]          NVARCHAR(100)    NOT NULL,
+    [Like] int,
+    Wow int default 0,
+    HaHa int default 0,
+    Sad int default 0,
+    Angry int default 0,
+    DisLike int default 0,
+    [NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
@@ -33,7 +30,14 @@ CREATE TABLE [dbo].[Video] (
     [link]              NVARCHAR (500) NOT NULL,
     [date_publications] DATETIME          NOT NULL,
     [take]              BIT            NOT NULL,
-    [category]          NVARCHAR(20)    NOT NULL,
+    [category]          NVARCHAR(100)    NOT NULL,
+    [Like] int,
+    Wow int default 0,
+    HaHa int default 0,
+    Sad int default 0,
+    Angry int default 0,
+    DisLike int default 0,
+    [NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
@@ -58,13 +62,19 @@ create table Journalist
 	[NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL 
 )
 
-CREATE TABLE Client
+create table MediaSubscription
 (
     [id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
-    [Login]  NVARCHAR (100) NOT NULL,
-    [Password]  NVARCHAR (100) NOT NULL,
-    [Data] ntext 
+    [NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL,
+    [Login] nvarchar(100) Foreign key ([Login]) References Client([Login]) NULL 
 );
+
+CREATE TABLE Client
+(
+    [Login]  NVARCHAR (100) PRIMARY KEY NOT NULL,
+    [Password]  NVARCHAR (100) NOT NULL
+);
+
 
 select count([Login])
 from Client
@@ -97,7 +107,20 @@ select * from Journalist where  [NameSMI]  = N'Tass'
 
 select PassportId from Journalist where  [NameSMI] IS NULL
 
+drop table MediaSubscription
 drop table SMI
 drop table Journalist
 drop table RSS
+drop table Text
+drop table Video
+drop table Client
 
+
+select * from Journalist, SMI WHERE Journalist.[NameSMI] = SMI.[NameSMI]
+
+select * from Text where Take = 1
+
+
+
+
+Insert Into Video(title, link, date_publications, take, category) values(N'Пожар на Лужнецкой набережной в Москве — LIVE', N'https://www.youtube.com/watch?v=rztKXwHFqS8', '2021-6-19 20:55:33', 0, N'Категория отсутствует')

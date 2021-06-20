@@ -89,7 +89,7 @@ namespace Modulir_Mass_Media
 
         private void btnLoginNotAuthorization_Click(object sender, RoutedEventArgs e)
         {
-           
+            ((ViewModel)DataContext).LoginWthoutRegistration.Execute(null);
         }
     }
 }

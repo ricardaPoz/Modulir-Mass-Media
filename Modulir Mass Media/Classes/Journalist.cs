@@ -11,6 +11,12 @@ using System.Timers;
 
 namespace Modulir_Mass_Media.Classes
 {
+
+    public enum JournalistType
+    {
+        Text,
+        Video
+    }
     public class ProductCreatedEventArgs
     {
         public InformationProduct InformationProduct { get; private set; }
@@ -21,13 +27,13 @@ namespace Modulir_Mass_Media.Classes
         public delegate void ProductCreatedtHendler(object sender, ProductCreatedEventArgs e);
         public event ProductCreatedtHendler InformationProductCreated;
 
-        public string PassportId { get; set; }
-        public string NameJournalist { get; set; }
-        public string TypeJournalist { get; set; }
+        public string PassportId { get; private set; }
+        public string NameJournalist { get; private set; }
+        public JournalistType TypeJournalist { get; private set; }
 
         private Timer creationTimer = new Timer();
 
-        public Journalist(string passportId, string nameJournalist, string typeJournalist)
+        public Journalist(string passportId, string nameJournalist, JournalistType typeJournalist)
         {
             this.NameJournalist = nameJournalist;
             TypeJournalist = typeJournalist;
@@ -50,19 +56,15 @@ namespace Modulir_Mass_Media.Classes
         }
 
         public void Dismissal() => creationTimer.Stop();
-
         private void StartWorking() => creationTimer.Start();
-        protected void CreateInformationProduct()
+        private void CreateInformationProduct()
         {
-            if (TypeJournalist == "Text")
+            if (TypeJournalist == JournalistType.Text)
             {
-                // Подключение к базе данных
-                SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
+                SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\Data\ModulationData.mdf;Integrated Security=True");
                 sqlConnection.Open();
                 SqlCommand command;
-                //
 
-                // получение самой новой новости по ее максимальному ID
                 command = new SqlCommand(@"select min([id]) from [Text] where [take] = 'false'", sqlConnection);
 
                 try { _ = (int)command.ExecuteScalar(); }
@@ -72,29 +74,21 @@ namespace Modulir_Mass_Media.Classes
                 command = new SqlCommand($@"update [Text] set [take] = 1 where [id] = {idNews}", sqlConnection);
                 command.ExecuteNonQuery();
 
-                // получение ссылки на новость 
                 command = new SqlCommand($@"select [link] from [Text] where [id] = {idNews}", sqlConnection);
                 string linkNews = (string)command.ExecuteScalar();
 
-                // получение загаловка новости для добавление ее в информационный продукт 
                 command = new SqlCommand($@"select [title] from [Text] where [id] = {idNews}", sqlConnection);
                 string titleNews = (string)command.ExecuteScalar();
 
 
-                // МЕТОД ПАРСИНГА ТЕКСТА С САЙТА
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                // считываем весь html файл и помещаем его в строку 
                 WebClient openNews = new WebClient();
                 Stream stream = openNews.OpenRead(linkNews);
                 StreamReader streamReader = new StreamReader(stream);
                 string htmlDocument = streamReader.ReadToEnd();
                 streamReader.Close();
-                //
 
                 List<string> ListInformationProduct = new List<string>();
 
-                // получение из всего документа тэги <p> </p>
                 string patternText = "(?nm)<p class=\"box-paragraph__text\">(?<unsorted_text>(\t|\r|\n|.)+?)</p>";
                 Regex regex1 = new Regex(patternText, RegexOptions.IgnoreCase | RegexOptions.Multiline);
                 MatchCollection unsortedText = regex1.Matches(htmlDocument);
@@ -113,40 +107,32 @@ namespace Modulir_Mass_Media.Classes
 
                     ListInformationProduct.Add(newTextNews);
                 }
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                // Журналист взял новость 
 
                 string category = (string)command.ExecuteScalar();
 
-                InformationProduct informationProduct = new InformationProduct(titleNews, string.Concat(ListInformationProduct.Select(e => e + "\n")), linkNews, category);
+                InformationProduct informationProduct = new InformationProduct(titleNews, string.Concat(ListInformationProduct.Select(e => e + "\n")), linkNews, category, InformationProductType.Text);
 
                 sqlConnection.Close();
 
                 InformationProductCreated?.Invoke(this, new ProductCreatedEventArgs(informationProduct));
             }
-            else
+            else if (TypeJournalist == JournalistType.Video)
             {
-                // Подключение к базе данных
-                SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
+                SqlConnection sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\Data\ModulationData.mdf;Integrated Security=True");
                 sqlConnection.Open();
                 SqlCommand command;
-                //
 
-                // получение самой новой новости по ее максимальному ID
                 command = new SqlCommand(@"select min([id]) from [Video] where [take] = 'false'", sqlConnection);
 
                 try { _ = (int)command.ExecuteScalar(); }
                 catch { return; }
                 int idNews = (int)command.ExecuteScalar();
 
-                // получение ссылки на видео для контента
                 command = new SqlCommand($@"select [link] from [Video] where [id] = {idNews}", sqlConnection);
                 string linkNews = (string)command.ExecuteScalar();
 
                 string contentNews = (string)command.ExecuteScalar();
 
-                // получение загаловка новости для добавление ее в информационный продукт 
                 command = new SqlCommand($@"select [title] from [Video] where [id] = {idNews}", sqlConnection);
                 string titleNews = (string)command.ExecuteScalar();
 
@@ -154,7 +140,7 @@ namespace Modulir_Mass_Media.Classes
                 string category = (string)command.ExecuteScalar();
 
 
-                InformationProduct informationProduct = new InformationProduct(titleNews, contentNews, linkNews, category);
+                InformationProduct informationProduct = new InformationProduct(titleNews, contentNews, linkNews, category, InformationProductType.Video);
                 command = new SqlCommand($@"update [Video] set [take] = 1 where [id] = {idNews}", sqlConnection);
                 command.ExecuteNonQuery();
                 sqlConnection.Close();

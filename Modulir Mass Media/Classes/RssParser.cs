@@ -14,7 +14,7 @@ using Timer = System.Timers.Timer;
 
 namespace Modulir_Mass_Media.Classes
 {
-    enum TypeRssInfo
+    public enum TypeRssInfo
     {
         Text,
         Audio,
@@ -22,32 +22,21 @@ namespace Modulir_Mass_Media.Classes
     }
     public class RssParser
     {
-        /*public delegate void RssParserHendler(object sender, EventArgs e);
-        public event RssParserHendler ParseCompleted;*/
         private Timer updateTimer = new Timer();
 
         private bool isWork = false;
 
         public string LinkRss { get; set; } 
+        public TypeRssInfo TypeRss { get; set; }
 
-        public RssParser(string linkRss)
+        public RssParser(string linkRss, TypeRssInfo typeRss)
         {
             LinkRss = linkRss;
-        }
+            TypeRss = typeRss;
 
-        public RssParser()
-        {
             updateTimer.AutoReset = true;
-            //UpdatePeriod.Interval = 3600000;
             updateTimer.Interval = 30000;
-            updateTimer.Elapsed += UpdatePeriod_Elapsed;
-        }
-
-        public RssParser(double updateInterval)
-        {
-            updateTimer.AutoReset = true;
-            updateTimer.Interval = updateInterval;
-            updateTimer.Elapsed += UpdatePeriod_Elapsed;
+            updateTimer.Elapsed += UpdatePeriod;
         }
 
         public void StartParsing()
@@ -65,21 +54,19 @@ namespace Modulir_Mass_Media.Classes
             updateTimer.Stop();
         }
 
-        private void UpdatePeriod_Elapsed(object sender, ElapsedEventArgs e) => UpdateInfo();
+        private void UpdatePeriod(object sender, ElapsedEventArgs e) => UpdateInfo();
         private void UpdateInfo()
         {
             Task.WaitAll
                 (
-                    Task.Run(() => GetNews(@"https://www.vedomosti.ru/rss/news", TypeRssInfo.Text)),
-                    Task.Run(() => GetNews(@"https://www.echo.msk.ru/podcasts/daidudja.rss", TypeRssInfo.Audio)),
-                    Task.Run(() => GetNews(@"https://www.youtube.com/feeds/videos.xml?channel_id=UCFU30dGHNhZ-hkh0R10LhLw", TypeRssInfo.Video))
+                    Task.Run(() => GetNews(LinkRss, TypeRss))
                 );
         }
 
         private void GetNews(string linkToRSS, TypeRssInfo typeRssInfo)
         {
             SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\NewsStore\Rss.mdf;Integrated Security=True");
+            sqlConnection = new SqlConnection(@$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\Data\ModulationData.mdf;Integrated Security=True");
 
             try
             {
