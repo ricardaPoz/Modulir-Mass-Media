@@ -12,14 +12,7 @@ CREATE TABLE [dbo].[Text] (
     [link]              NVARCHAR (500) NOT NULL,
     [date_publications] DATETIME           NOT NULL,
     [take]              BIT            NOT NULL,
-    [category]          NVARCHAR(100)    NOT NULL,
-    [Like] int,
-    Wow int default 0,
-    HaHa int default 0,
-    Sad int default 0,
-    Angry int default 0,
-    DisLike int default 0,
-    [NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL,
+    [category]          NVARCHAR(10)    NOT NULL,
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
@@ -31,13 +24,6 @@ CREATE TABLE [dbo].[Video] (
     [date_publications] DATETIME          NOT NULL,
     [take]              BIT            NOT NULL,
     [category]          NVARCHAR(100)    NOT NULL,
-    [Like] int,
-    Wow int default 0,
-    HaHa int default 0,
-    Sad int default 0,
-    Angry int default 0,
-    DisLike int default 0,
-    [NameSMI] nvarchar(100) Foreign key ([NameSMI]) References SMI ([NameSMI]) NULL
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
@@ -121,6 +107,8 @@ select * from Journalist, SMI WHERE Journalist.[NameSMI] = SMI.[NameSMI]
 select * from Text where Take = 1
 
 
+update Journalist set [NameSMI] = NULL where [NameSMI] = N'Tass'
+delete from SMI where [NameSMI] = N'Ведомости'
 
 
 Insert Into Video(title, link, date_publications, take, category) values(N'Пожар на Лужнецкой набережной в Москве — LIVE', N'https://www.youtube.com/watch?v=rztKXwHFqS8', '2021-6-19 20:55:33', 0, N'Категория отсутствует')

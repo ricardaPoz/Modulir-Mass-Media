@@ -28,18 +28,17 @@ namespace Modulir_Mass_Media
             InitializeComponent();
            
         }
-        public Page(ViewModel viewModel, MassMediaInformationProduct mediaProduct)
+        public Page(MassMediaInformationProduct mediaProduct)
         {
             InitializeComponent();
-            DataContext = viewModel;
+            DataContext = ViewModel.SubscriptionMassMedia;
             this.mediaProduct = mediaProduct;
-
             #region 
             tbxLike.Text = mediaProduct.InformationProduct.Like.ToString();
             tbxWow.Text = mediaProduct.InformationProduct.Wow.ToString();
             tbSad.Text = mediaProduct.InformationProduct.Sad.ToString();
             tbAngry.Text = mediaProduct.InformationProduct.Angry.ToString();
-            tbDisLike.Text = mediaProduct.InformationProduct.Like.ToString();
+            tbDisLike.Text = mediaProduct.InformationProduct.DisLike.ToString();
             tbxHaHa.Text = mediaProduct.InformationProduct.HaHa.ToString();
 
             if (mediaProduct.InformationProduct.ContentProduct.Contains("youtube"))
@@ -67,6 +66,7 @@ namespace Modulir_Mass_Media
             var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
             videoPlayer.Source = new Uri(streamInfo.Url);
         }
+
         private void cmbUncoverAndHide_Unchecked(object sender, RoutedEventArgs e) => WindowState = WindowState.Normal;
         private void cmbUncoverAndHide_Checked(object sender, RoutedEventArgs e) => WindowState = WindowState.Maximized;
         private void closeForm_MouseDown(object sender, MouseButtonEventArgs e) => Close();
@@ -77,12 +77,12 @@ namespace Modulir_Mass_Media
 
         private void btnSubscribe_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).SubscribedToMediaCommand.Execute(mediaProduct);
+            ViewModel.SubscribedToMediaCommand.Execute(mediaProduct);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ((ViewModel)DataContext).PageClosingCommand.Execute(new EmotionCommandParametr(mediaProduct.InformationProduct.ProductType, mediaProduct.InformationProduct.LinkProduct, int.Parse(tbxLike.Text), int.Parse(tbxHaHa.Text), int.Parse(tbxWow.Text), int.Parse(tbSad.Text), int.Parse(tbAngry.Text), int.Parse(tbDisLike.Text)));
+            ViewModel.PageClosingCommand.Execute(new EmotionCommandParametr(mediaProduct.InformationProduct.ProductType, mediaProduct.InformationProduct.LinkProduct, int.Parse(tbxLike.Text), int.Parse(tbxHaHa.Text), int.Parse(tbxWow.Text), int.Parse(tbSad.Text), int.Parse(tbAngry.Text), int.Parse(tbDisLike.Text)));
         }
 
         #region Эмоции

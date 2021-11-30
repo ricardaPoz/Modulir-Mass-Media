@@ -16,9 +16,6 @@
         Background="Transparent"
         ResizeMode="CanResize"
         >
-    <Window.DataContext>
-        <vm:ViewModel/>
-    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="StyleButton" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -197,7 +194,8 @@
                                               SelectionMode="Single"
                                               HorizontalContentAlignment="Stretch"
                                               MouseDown="listView_MouseDown"
-                                              ItemsSource="{Binding JournalistsWorking}"
+                                              ItemsSource="{Binding}"
+                                              DataContext="{x:Static vm:ViewModel.JournalistsWorking}"
                                               >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -236,7 +234,7 @@
                                         <ColumnDefinition Width="0.2*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="btnRemoveSMI" Click="btnRemoveSMI_Click" Margin="5 0 0 0" Style="{DynamicResource StyleButton}">
+                                    <Button x:Name="btnRemoveSMI" Click="btnRemoveSMI_Click" Style="{DynamicResource StyleButton}" HorizontalAlignment="Right" Width="49">
                                         <Viewbox Stretch="Fill" Height="20" Width="19" >
                                             <Canvas Height="298.667" Width="298.667">
                                                 <Rectangle Fill="White"  Canvas.Top="128" Width="298.667" Height="42.667" />
@@ -256,7 +254,8 @@
                                         SelectionMode="Single"
                                         SelectionChanged="listViewSMI_SelectionChanged"
                                         MouseDown="listView_MouseDown"
-                                        ItemsSource="{Binding Medias}"
+                                        ItemsSource="{Binding}"
+                                        DataContext="{x:Static vm:ViewModel.Medias}"
                                         >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -272,7 +271,8 @@
                                     </ListView>
                                 </Border>
                             </Grid>
-                            <Grid Grid.Column="0" Margin="5">
+                            <Grid Grid.Column="0" Margin="5"
+                                  >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="0.1*"/>
                                     <RowDefinition Height="*"/>
@@ -300,7 +300,8 @@
                                               HorizontalContentAlignment="Stretch"
                                               SelectionChanged="listViewNotBusyJournalist_SelectionChanged"
                                               MouseDown="listView_MouseDown"
-                                              ItemsSource="{Binding JournalistsNotBusy}"
+                                              ItemsSource="{Binding}"
+                                              DataContext="{x:Static vm:ViewModel.JournalistsNotBusy}"
                                               >
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -565,7 +566,9 @@
                                                     SelectionMode="Single"
                                                     SelectionChanged="listViewRSS_SelectionChanged"
                                                     MouseDown="listView_MouseDown"
-                                                    ItemsSource="{Binding RssParser}">
+                                                    ItemsSource="{Binding}"
+                                                    DataContext="{x:Static vm:ViewModel.RssParser}"
+                                                    >
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid >

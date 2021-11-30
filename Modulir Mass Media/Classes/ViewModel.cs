@@ -10,12 +10,21 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using CodeHollow.FeedReader;
 using Modulir_Mass_Media.Helpers;
+using Xceed.Wpf.Toolkit;
 
 namespace Modulir_Mass_Media.Classes
 {
-    public class ViewModel
+    public static class ViewModel
     {
-        public ViewModel()
+        public static ObservableCollection<RssParser> RssParser { get; set; }
+        public static ObservableCollection<MassMedia> Medias { get; set; }
+        public static ObservableCollection<Journalist> JournalistsNotBusy { get; set; }
+        public static ObservableCollection<Journalist> JournalistsWorking { get; set; }
+        public static ObservableCollection<MassMediaInformationProduct> MediaProduct { get; set; }
+        public static ObservableCollection<MassMediaInformationProduct> MediaProductBySubscription { get; set; }
+        public static ObservableCollection<MassMedia> SubscriptionMassMedia { get; set; }
+
+        static ViewModel()
         {
             Medias = new ObservableCollection<MassMedia>();
             JournalistsNotBusy = new ObservableCollection<Journalist>();
@@ -27,63 +36,59 @@ namespace Modulir_Mass_Media.Classes
         }
 
         #region Поля
-        Client client;
+        static Client client;
 
-        private string connectionString = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\Data\ModulationData.mdf;Integrated Security=True";
-        private ICommand registrationCommand;
-        private ICommand authorizationCommand;
-        private ICommand loginWthoutRegistration;
+        private static string connectionString = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName}\Data\ModulationData.mdf;Integrated Security=True";
+        private static ICommand registrationCommand;
+        private static ICommand authorizationCommand;
+        private static ICommand loginWthoutRegistration;
+                 
+        private static ICommand openConfigurationCommand;
+        private static ICommand initializationMedia;
+        private static ICommand initializationJournalist;
+        private static ICommand initializationRSS;
+        private static ICommand addMediaCommand;
+        private static ICommand addJournalistCommand;
+        private static ICommand addRSSCommand;
+        private static ICommand recruitmentCommand;
+        private static ICommand mediaSelectionChanged;
+        private static ICommand removeNotBussyJornalistCommand;
+        private static ICommand removeSMICommand;
+        private static ICommand removeWorkingJournalistCommand;
+        private static ICommand removeRSSCommand;
+                 
+        private static ICommand subscribedToMediaCommand;
+        private static ICommand readMoreCommand;
+        private static ICommand unbscribeCommand;
+        private static ICommand pageClosingCommand;
+                 
+        private static object locker = new object();
 
-        private ICommand openConfigurationCommand;
-        private ICommand initializationMedia;
-        private ICommand initializationJournalist;
-        private ICommand initializationRSS;
-        private ICommand addMediaCommand;
-        private ICommand addJournalistCommand;
-        private ICommand addRSSCommand;
-        private ICommand recruitmentCommand;
-        private ICommand mediaSelectionChanged;
-        private ICommand removeNotBussyJornalistCommand;
-        private ICommand removeSMICommand;
-        private ICommand removeWorkingJournalistCommand;
-        private ICommand removeRSSCommand;
+        public static event Action<bool, string> AuthorizationAccepted;
+        public static event Action<bool, string> RegistrationAccepted;
+        public static event Action<bool, string, ElementChanged> AddMediaAccepted;
+        public static event Action<bool, string, ElementChanged> AddJournalistAccepted;
+        public static event Action<bool, string, ElementChanged> AddRSSAccepted;
+        public static event Action<bool, string, ElementChanged> RecruitmentAccepted;
+        public static event Action<bool, string, ElementChanged> MediaSelectionAccepted;
+        public static event Action<bool, string, ElementChanged> RemoveNotBussyAccepted;
+        public static event Action<bool, string, ElementChanged> RemoveSMIAccepted;
+        public static event Action<bool, string, ElementChanged> RemoveWorkingJournalistAccepted;
+        public static event Action<bool, string, ElementChanged> RemoveRSSAccepted;
 
-        private ICommand subscribedToMediaCommand;
-        private ICommand readMoreCommand;
-        private ICommand subscribeCommand;
-        private ICommand unbscribeCommand;
-
-        private ICommand pageClosingCommand;
-
-        private object locker = new object();
-
-        public ObservableCollection<RssParser> RssParser { get; set; }
-        public ObservableCollection<MassMedia> Medias { get; set; }
-        public ObservableCollection<Journalist> JournalistsNotBusy { get; set; }
-        public ObservableCollection<Journalist> JournalistsWorking { get; set; }
-        public ObservableCollection<MassMediaInformationProduct> MediaProduct { get; set; }
-        public ObservableCollection<MassMediaInformationProduct> MediaProductBySubscription { get; set; }
-        public ObservableCollection<MassMedia> SubscriptionMassMedia { get; set; }
-        #endregion
-
-        #region События 
-        public event Action<object, bool, string> AuthorizationAccepted;
-        public event Action<object, bool, string> RegistrationAccepted;
-        public event Action<object, bool, string, ElementChanged> AddMediaAccepted;
-        public event Action<object, bool, string, ElementChanged> AddJournalistAccepted;
-        public event Action<object, bool, string, ElementChanged> AddRSSAccepted;
-        public event Action<object, bool, string, ElementChanged> RecruitmentAccepted;
-        public event Action<object, bool, string, ElementChanged> MediaSelectionAccepted;
-        public event Action<object, bool, string, ElementChanged> RemoveNotBussyAccepted;
-        public event Action<object, bool, string, ElementChanged> RemoveSMIAccepted;
-        public event Action<object, bool, string, ElementChanged> RemoveWorkingJournalistAccepted;
-        public event Action<object, bool, string, ElementChanged> RemoveRSSAccepted;
-
-        public event Action<object, MassMedia> SubscribedToMedia;
-        public event Action<object, MassMedia> UnscribedToMedia;
+        public static event Action<MassMedia> SubscribedToMedia;
+        public static event Action<MassMedia> UnscribedToMedia;
+        public static event Action<int, string> EditLikeCommand;
+        public static event Action<int, string> EditHaHaCommand;
+        public static event Action<int, string> EditWowCommand;
+        public static event Action<int, string> EditSadCommand;
+        public static event Action<int, string> EditAngryCommand;
+        public static event Action<int, string> EditDisLikeCommand;
+        public static event Action<MassMedia, Journalist> JournalistHired;
+        public static event Action<RssParser> RssStart;
 
         #endregion
-        private void InitializationMediaJournalistWorker()
+        private static void InitializationMediaJournalistWorker()
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -105,7 +110,7 @@ namespace Modulir_Mass_Media.Classes
                         JournalistsWorking.Add(journalist);
 
                         MassMedia media = Medias.FirstOrDefault(e => e.NameMedia == nameMedia);
-                        if (media != null) media.HiringEmployee(journalist);
+                        if (media != null) JournalistHired?.Invoke(media, journalist);
                     }
                 }
                 reader.Close();
@@ -114,7 +119,7 @@ namespace Modulir_Mass_Media.Classes
             }
             catch { }
         }
-        public ICommand SubscribedToMediaCommand => subscribedToMediaCommand ??= new RelayCommand(obj =>
+        public static ICommand SubscribedToMediaCommand => subscribedToMediaCommand ??= new RelayCommand(obj =>
         {
             if (!(obj is MassMediaInformationProduct massMediaInformationProduct)) return;
 
@@ -126,7 +131,7 @@ namespace Modulir_Mass_Media.Classes
                 SqlCommand command;
 
                 MassMedia massMedia = Medias.FirstOrDefault(e => e.NameMedia == massMediaInformationProduct.NameMassMedia);
-                if (massMedia != null) SubscribedToMedia?.Invoke(this, massMedia);
+                if (massMedia != null) SubscribedToMedia?.Invoke(massMedia);
                 if (!SubscriptionMassMedia.Contains(massMedia))
                 {
                     SubscriptionMassMedia.Add(massMedia);
@@ -138,7 +143,7 @@ namespace Modulir_Mass_Media.Classes
             catch { }
         }
         );
-        public ICommand UnbscribedToMediaCommand => unbscribeCommand ??= new RelayCommand(obj =>
+        public static ICommand UnbscribedToMediaCommand => unbscribeCommand ??= new RelayCommand(obj =>
         {
             var objOne = obj as Tuple<object>;
             if (!(objOne.Item1 is MassMedia mediaInformationProduct)) return;
@@ -153,18 +158,18 @@ namespace Modulir_Mass_Media.Classes
                 command.ExecuteNonQuery();
 
 
-                UnscribedToMedia?.Invoke(this, mediaInformationProduct);
+                UnscribedToMedia?.Invoke(mediaInformationProduct);
 
                 sqlConnection.Close();
             }
             catch { }
         }
        );
-        public Client Client
+        public static Client Client
         {
             get { return client; }
         }
-        public ICommand InitializationRSS => initializationRSS ??= new RelayCommand(obj =>
+        public static ICommand InitializationRSS => initializationRSS ??= new RelayCommand(obj =>
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             try
@@ -188,7 +193,7 @@ namespace Modulir_Mass_Media.Classes
             catch { }
         }
         );
-        public ICommand InitializationJournalist => initializationJournalist ??= new RelayCommand(obj =>
+        public static ICommand InitializationJournalist => initializationJournalist ??= new RelayCommand(obj =>
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
@@ -205,7 +210,7 @@ namespace Modulir_Mass_Media.Classes
             sqlConnection.Close();
         }
         );
-        public ICommand InitializationMedia => initializationMedia ??= new RelayCommand(obj =>
+        public static ICommand InitializationMedia => initializationMedia ??= new RelayCommand(obj =>
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
@@ -225,7 +230,7 @@ namespace Modulir_Mass_Media.Classes
             sqlConnection.Close();
         }
         );
-        public ICommand AddMediaCommand => addMediaCommand ??= new RelayCommand(obj =>
+        public static ICommand AddMediaCommand => addMediaCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string nameMedia) || !(objTwo is null)) return;
@@ -233,7 +238,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных");
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(false, "Отсутствует подключение к базе данных");
                 else
                 {
                     SqlCommand command;
@@ -243,7 +248,7 @@ namespace Modulir_Mass_Media.Classes
                     if (countСoincidences == 1)
                     {
                         sqlConnection.Close();
-                        AddMediaAccepted.Invoke(this, false, "Такое наименование СМИ уже существует", ElementChanged.AddMedia);
+                        AddMediaAccepted.Invoke(false, "Такое наименование СМИ уже существует", ElementChanged.AddMedia);
                         return;
                     }
                     else
@@ -251,15 +256,15 @@ namespace Modulir_Mass_Media.Classes
                         command = new SqlCommand($"Insert Into SMI([NameSMI]) values(N'{nameMedia}')", sqlConnection);
                         command.ExecuteNonQuery();
                         sqlConnection.Close();
-                        AddMediaAccepted.Invoke(this, true, "СМИ успешно добавлено", ElementChanged.AddMedia);
+                        AddMediaAccepted.Invoke(true, "СМИ успешно добавлено", ElementChanged.AddMedia);
                         Medias.Add(new MassMedia(nameMedia));
                     }
                 }
             }
-            catch { AddMediaAccepted?.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { AddMediaAccepted?.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand AddJournalistCommand => addJournalistCommand ??= new RelayCommand(obj =>
+        public static ICommand AddJournalistCommand => addJournalistCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo, objThree) = obj as Tuple<object, object, object>;
             if (!(objOne is string nameJournalist) || !(objTwo is string passportId) || !(objThree is string typeJournalist)) return;
@@ -268,7 +273,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AddJournalistAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AddJournalistAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
@@ -278,7 +283,7 @@ namespace Modulir_Mass_Media.Classes
                     if (countСoincidences == 1)
                     {
                         sqlConnection.Close();
-                        AddJournalistAccepted.Invoke(this, false, "Журналист с таким паспортом уже существует", ElementChanged.AddJournalist);
+                        AddJournalistAccepted.Invoke(false, "Журналист с таким паспортом уже существует", ElementChanged.AddJournalist);
                         return;
                     }
                     else
@@ -287,15 +292,15 @@ namespace Modulir_Mass_Media.Classes
                         command = new SqlCommand($"Insert Into Journalist(PassportId, [NameJournalist], [Type]) values(N'{passportId}', N'{nameJournalist}', N'{type}')", sqlConnection);
                         command.ExecuteNonQuery();
                         sqlConnection.Close();
-                        AddJournalistAccepted.Invoke(this, true, "Журналист успешно добавлен", ElementChanged.AddJournalist);
+                        AddJournalistAccepted.Invoke(true, "Журналист успешно добавлен", ElementChanged.AddJournalist);
                         JournalistsNotBusy.Add(typeJournalist == "Текст" ? new Journalist(passportId, nameJournalist, JournalistType.Text) : new Journalist(passportId, nameJournalist, JournalistType.Video));
                     }
                 }
             }
-            catch { AddJournalistAccepted?.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { AddJournalistAccepted?.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand AddRSSCommand => addRSSCommand ??= new RelayCommand(obj =>
+        public static ICommand AddRssCommand => addRSSCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string nameRSS) || !(objTwo is TypeRssInfo typeRSS)) return;
@@ -304,7 +309,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AddRSSAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AddRSSAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     try
@@ -319,7 +324,7 @@ namespace Modulir_Mass_Media.Classes
                         if (countСoincidences == 1)
                         {
                             sqlConnection.Close();
-                            AddRSSAccepted.Invoke(this, false, "Введенная ссылка на RSS уже существует", ElementChanged.AddRSS);
+                            AddRSSAccepted.Invoke(false, "Введенная ссылка на RSS уже существует", ElementChanged.AddRSS);
                             return;
                         }
                         else
@@ -327,22 +332,22 @@ namespace Modulir_Mass_Media.Classes
                             command = new SqlCommand($"Insert Into RSS([LinkRSS], [TypeRSS]) values(N'{nameRSS}', N'{typeRSS}')", sqlConnection);
                             command.ExecuteNonQuery();
                             sqlConnection.Close();
-                            AddRSSAccepted.Invoke(this, true, "Ссылка на RSS успешно добавлена", ElementChanged.AddRSS);
+                            AddRSSAccepted.Invoke(true, "Ссылка на RSS успешно добавлена", ElementChanged.AddRSS);
                             RssParser.Add(new RssParser(nameRSS, typeRSS));
                         }
                     }
                     catch
                     {
-                        AddRSSAccepted.Invoke(this, false, "Ссылка не распознана", ElementChanged.AddRSS);
+                        AddRSSAccepted.Invoke(false, "Ссылка не распознана", ElementChanged.AddRSS);
                         return;
                     }
                 }
             }
-            catch { AddRSSAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { AddRSSAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
 
         }
         );
-        public ICommand MediaSelectionChanged => mediaSelectionChanged ??= new RelayCommand(obj =>
+        public static ICommand MediaSelectionChanged => mediaSelectionChanged ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string nameMedia) || !(objTwo is null)) return;
@@ -351,7 +356,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) MediaSelectionAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) MediaSelectionAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     JournalistsWorking.Clear();
@@ -372,15 +377,15 @@ namespace Modulir_Mass_Media.Classes
                             }
                         }
                         sqlConnection.Close();
-                        MediaSelectionAccepted.Invoke(this, true, "", ElementChanged.MediaSelectionChanged);
+                        MediaSelectionAccepted.Invoke(true, "", ElementChanged.MediaSelectionChanged);
                     }
                     catch { sqlConnection.Close(); }
                 }
             }
-            catch { MediaSelectionAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { MediaSelectionAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand RecruitmentCommand => recruitmentCommand ??= new RelayCommand(obj =>
+        public static ICommand RecruitmentCommand => recruitmentCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo, objThree, objFour, objFive) = obj as Tuple<object, object, object, object, object>;
             if (!(objOne is string nameMedia) || !(objTwo is string passportJournalist) || !(objThree is string nameJournalist) || !(objFour is JournalistType typeJournalist) || !(objFive is Journalist journalist)) return;
@@ -389,7 +394,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) RecruitmentAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) RecruitmentAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
@@ -401,10 +406,10 @@ namespace Modulir_Mass_Media.Classes
                     JournalistsNotBusy.Remove(journalist);
                 }
             }
-            catch { RecruitmentAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { RecruitmentAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand RemoveRSSCommand => removeRSSCommand ??= new RelayCommand(obj =>
+        public static ICommand RemoveRssCommand => removeRSSCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string linkRss) || !(objTwo is RssParser rssParser)) return;
@@ -413,7 +418,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveRSSAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveRSSAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
@@ -423,13 +428,13 @@ namespace Modulir_Mass_Media.Classes
 
                     RssParser.Remove(rssParser);
 
-                    RemoveRSSAccepted?.Invoke(this, true, "RSS ссылка удалена", ElementChanged.RemoveRSS);
+                    RemoveRSSAccepted?.Invoke(true, "RSS ссылка удалена", ElementChanged.RemoveRSS);
                 }
             }
-            catch { RemoveRSSAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { RemoveRSSAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand RemoveSMICommand => removeSMICommand ??= new RelayCommand(obj =>
+        public static ICommand RemoveMediaCommand => removeSMICommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string nameMedia) || !(objTwo is MassMedia massMedia)) return;
@@ -438,13 +443,15 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveSMIAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveSMIAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
                     command = new SqlCommand($"update Journalist set [NameSMI] = NULL where [NameSMI] = N'{nameMedia}'", sqlConnection);
                     command.ExecuteNonQuery();
 
+                    command = new SqlCommand($"delete [MediaSubscription] where [NameSMI] = N'{nameMedia}'", sqlConnection);
+                    command.ExecuteNonQuery();
 
                     command = new SqlCommand($"delete from SMI where [NameSMI] = N'{nameMedia}'", sqlConnection);
                     command.ExecuteNonQuery();
@@ -453,15 +460,15 @@ namespace Modulir_Mass_Media.Classes
                     Medias.Remove(massMedia);
                     JournalistsWorking.Clear();
                     JournalistsNotBusy.Clear();
-                    this.InitializationJournalist.Execute(null);
+                    ViewModel.InitializationJournalist.Execute(null);
 
-                    RemoveSMIAccepted.Invoke(this, true, "СМИ удалено", ElementChanged.RemoveSMI);
+                    RemoveSMIAccepted.Invoke(true, "СМИ удалено", ElementChanged.RemoveSMI);
                 }
             }
-            catch { RemoveSMIAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch(Exception e) { RemoveSMIAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand RemoveWorkingJournalistCommand => removeWorkingJournalistCommand ??= new RelayCommand(obj =>
+        public static ICommand RemoveWorkingJournalistCommand => removeWorkingJournalistCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo, objThree) = obj as Tuple<object, object, object>;
             if (!(objOne is string nameMedia) || !(objTwo is string passportId) || !(objThree is Journalist journalist)) return;
@@ -470,7 +477,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveWorkingJournalistAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) RemoveWorkingJournalistAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
@@ -481,15 +488,15 @@ namespace Modulir_Mass_Media.Classes
 
                     JournalistsWorking.Remove(journalist);
                     JournalistsNotBusy.Clear();
-                    this.InitializationJournalist.Execute(null);
+                    ViewModel.InitializationJournalist.Execute(null);
 
-                    RemoveWorkingJournalistAccepted.Invoke(this, true, "Журналист удален", ElementChanged.RemoveJournalistWorking);
+                    RemoveWorkingJournalistAccepted.Invoke(true, "Журналист удален", ElementChanged.RemoveJournalistWorking);
                 }
             }
-            catch { RemoveWorkingJournalistAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { RemoveWorkingJournalistAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand RemoveNotBussyJornalistCommand => removeNotBussyJornalistCommand ??= new RelayCommand(obj =>
+        public static ICommand RemoveNotBussyJornalistCommand => removeNotBussyJornalistCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string passportId) || !(objTwo is Journalist journalist)) return;
@@ -498,7 +505,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) RecruitmentAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
+                if (sqlConnection.State != System.Data.ConnectionState.Open) RecruitmentAccepted?.Invoke(false, "Отсутствует подключение к базе данных", ElementChanged.ExeptionWorkDataBase);
                 else
                 {
                     SqlCommand command;
@@ -508,33 +515,35 @@ namespace Modulir_Mass_Media.Classes
                     sqlConnection.Close();
 
                     JournalistsNotBusy.Remove(journalist);
-                    RemoveNotBussyAccepted.Invoke(this, true, "Журналист удален", ElementChanged.RemoveJournalistNotBusy);
+                    RemoveNotBussyAccepted.Invoke(true, "Журналист удален", ElementChanged.RemoveJournalistNotBusy);
                 }
             }
-            catch { RemoveNotBussyAccepted.Invoke(this, false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
+            catch { RemoveNotBussyAccepted.Invoke(false, "Ошибка работы с базой данных", ElementChanged.ExeptionWorkDataBase); }
         }
         );
-        public ICommand OpenConfigurationCommand => openConfigurationCommand ??= new RelayCommand(obj =>
+        public static ICommand OpenConfigurationCommand => openConfigurationCommand ??= new RelayCommand(obj =>
         {
             Medias.Clear();
             JournalistsNotBusy.Clear();
             JournalistsWorking.Clear();
             RssParser.Clear();
-            Configuration configuration = new Configuration(this);
+            Configuration configuration = new Configuration();
+
             configuration.ShowDialog();
         });
-        public ICommand LoginWthoutRegistration => loginWthoutRegistration ??= new RelayCommand(obj =>
+        public static ICommand LoginWthoutRegistration => loginWthoutRegistration ??= new RelayCommand(obj =>
         {
+            client = null;
             RssParser.Clear();
             Medias.Clear();
             JournalistsWorking.Clear();
             MediaProductBySubscription.Clear();
             SubscriptionMassMedia.Clear();
 
-            this.InitializationMedia.Execute(null);
-            this.InitializationRSS.Execute(null);
+            InitializationMedia.Execute(null);
+            InitializationRSS.Execute(null);
 
-            foreach (var item in RssParser) item.StartParsing();
+            foreach (var item in RssParser) RssStart?.Invoke(item);
 
             InitializationMediaJournalistWorker();
 
@@ -542,7 +551,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных");
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(false, "Отсутствует подключение к базе данных");
                 else
                 {
                     SqlCommand command;
@@ -560,8 +569,9 @@ namespace Modulir_Mass_Media.Classes
                             Journalist journalist = new Journalist(reader.GetString(0), reader.GetString(1), (JournalistType)Enum.Parse(typeof(JournalistType), reader.GetString(2)));
 
                             MassMedia media = Medias.FirstOrDefault(e => e.NameMedia == nameMedia);
-                            media.ProductRelese += Media_ProductRelese;
-                            if (media != null) media.HiringEmployee(journalist);
+                            media.ProductRelese += MediaProductRelese;
+                            if (media != null) JournalistHired?.Invoke(media, journalist);
+
                         }
                     }
                     reader.Close();
@@ -570,11 +580,12 @@ namespace Modulir_Mass_Media.Classes
             }
             catch { }
 
-            MainWindow window = new MainWindow(this);
+            MainWindow window = new MainWindow();
             window.ShowDialog();
+
         }
         );
-        public ICommand AuthorizationCommand => authorizationCommand ??= new RelayCommand(obj =>
+        public static ICommand AuthorizationCommand => authorizationCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string login) || !(objTwo is string password)) return;
@@ -584,19 +595,18 @@ namespace Modulir_Mass_Media.Classes
             JournalistsWorking.Clear();
             SubscriptionMassMedia.Clear();
 
-            this.InitializationMedia.Execute(null);
-            this.InitializationRSS.Execute(null);
+            InitializationMedia.Execute(null);
+            InitializationRSS.Execute(null);
 
-            foreach (var item in RssParser) item.StartParsing();
+            foreach (var item in RssParser) RssStart?.Invoke(item);
 
             InitializationMediaJournalistWorker();
-
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных");
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(false, "Отсутствует подключение к базе данных");
                 else
                 {
                     SqlCommand command;
@@ -606,7 +616,7 @@ namespace Modulir_Mass_Media.Classes
                     if (countСoincidences == 0)
                     {
                         sqlConnection.Close();
-                        AuthorizationAccepted?.Invoke(this, false, "Пользователь не найден");
+                        AuthorizationAccepted?.Invoke(false, "Пользователь не найден");
                         return;
                     }
                     else
@@ -615,7 +625,7 @@ namespace Modulir_Mass_Media.Classes
                         string passwordTrue = (string)command.ExecuteScalar();
                         if (BCrypt.Net.BCrypt.Verify(password, passwordTrue))
                         {
-                            AuthorizationAccepted?.Invoke(this, true, "Вход выполнен");
+                            AuthorizationAccepted?.Invoke(true, "Вход выполнен");
 
                             command = new SqlCommand(@"select * from Journalist where [NameSMI] is not null", sqlConnection);
                             SqlDataReader reader;
@@ -630,14 +640,14 @@ namespace Modulir_Mass_Media.Classes
                                     Journalist journalist = new Journalist(reader.GetString(0), reader.GetString(1), (JournalistType)Enum.Parse(typeof(JournalistType), reader.GetString(2)));
 
                                     MassMedia media = Medias.FirstOrDefault(e => e.NameMedia == nameMedia);
-                                    media.ProductRelese += Media_ProductRelese;
-                                    if (media != null) media.HiringEmployee(journalist);
+                                    media.ProductRelese += MediaProductRelese;
+                                    if (media != null) JournalistHired?.Invoke(media, journalist);
                                 }
                             }
                             reader.Close();
 
-                            client = new Client(login, this);
-                            client.NewsReceivedBySubscription += Client_NewsReceivedBySubscription;
+                            client = new Client(login);
+                            client.NewsReceivedBySubscription += ClientNewsReceivedBySubscription;
                             client.MediaUnSubscripted += MediaUnSubscripted;
 
                             command = new SqlCommand($"select [NameSMI] from MediaSubscription where [Login] = N'{client.Login}'", sqlConnection);
@@ -650,82 +660,56 @@ namespace Modulir_Mass_Media.Classes
                                     string nameMedia = reader.GetString(0);
                                     MassMedia media = Medias.FirstOrDefault(e => e.NameMedia == nameMedia);
                                     SubscriptionMassMedia.Add(media);
-                                    SubscribedToMedia?.Invoke(this, media);
+                                    SubscribedToMedia?.Invoke(media);
                                 }
                             }
 
                             sqlConnection.Close();
 
-                            MainWindow mainWindow = new MainWindow(this);
+                            MainWindow mainWindow = new MainWindow();
                             mainWindow.ShowDialog();
                         }
                         else
                         {
-                            AuthorizationAccepted?.Invoke(this, false, "Неверный логин или пароль");
+                            AuthorizationAccepted?.Invoke(false, "Неверный логин или пароль");
                             sqlConnection.Close();
                             return;
                         }
                     }
                 }
             }
-            catch (Exception e) { AuthorizationAccepted?.Invoke(this, false, "Ошибка работы с базой данных"); }
+            catch (Exception e) { AuthorizationAccepted?.Invoke(false, "Ошибка работы с базой данных"); }
         }
         );
-        private void MediaUnSubscripted(MassMedia e)
+
+        private static void MediaProductRelese(MassMediaInformationProduct e)
+        {
+            lock (locker)
+            {
+                if (!MediaProduct.Contains(e))
+                {
+                    try
+                    {
+                        App.Current.Dispatcher.Invoke(() => MediaProduct.Insert(0, e));
+                    }
+                    catch { }
+                }
+            }
+        }
+        private static void MediaUnSubscripted(MassMedia e)
         {
             SubscriptionMassMedia.Remove(e);
         }
-        public ICommand ReadMoreCommand => readMoreCommand ??= new RelayCommand(obj =>
+        public static ICommand ReadMoreCommand => readMoreCommand ??= new RelayCommand(obj =>
        {
            var objOne = obj as Tuple<object>;
            if (!(objOne.Item1 is MassMediaInformationProduct mediaInformationProduct)) return;
 
-           Page page = new Page(this, MediaProduct.FirstOrDefault(e => e.InformationProduct.LinkProduct == mediaInformationProduct.InformationProduct.LinkProduct));
+           Page page = new Page(MediaProduct.FirstOrDefault(e => e.InformationProduct.LinkProduct == mediaInformationProduct.InformationProduct.LinkProduct));
            page.ShowDialog();
        }
         );
-        private void Media_ProductRelese(object sender, MassMediaReleaseInformationProductEventArgs e)
-        {
-            lock (locker)
-            {
-                if (!MediaProduct.Contains(e.MassMediaInformationProduct))
-                {
-                    App.Current.Dispatcher.Invoke(() => MediaProduct.Insert(0, e.MassMediaInformationProduct));
-
-                    SqlConnection sqlConnection = new SqlConnection(connectionString);
-                    try
-                    {
-                        sqlConnection.Open();
-                        if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных");
-                        else
-                        {
-                            SqlCommand command;
-                            
-                            switch(e.MassMediaInformationProduct.InformationProduct.ProductType)
-                            {
-                                case InformationProductType.Text:
-                                    {
-                                        command = new SqlCommand($@"update Text set [NameSMI] = N'{e.MassMediaInformationProduct.NameMassMedia}'  where [link] = N'{e.MassMediaInformationProduct.InformationProduct.LinkProduct}'", sqlConnection);
-                                        command.ExecuteNonQuery();
-                                        sqlConnection.Close();
-                                        break;
-                                    }
-                                case InformationProductType.Video:
-                                    {
-                                        command = new SqlCommand($@"update Video set [NameSMI] = N'{e.MassMediaInformationProduct.NameMassMedia}'  where [link] = N'{e.MassMediaInformationProduct.InformationProduct.LinkProduct}'", sqlConnection);
-                                        command.ExecuteNonQuery();
-                                        sqlConnection.Close();
-                                        break;
-                                    }
-                            }
-                        }
-                    }
-                    catch { }
-
-                }
-            }
-        }
-        private void Client_NewsReceivedBySubscription(MassMediaInformationProduct e)
+        private static void ClientNewsReceivedBySubscription(MassMediaInformationProduct e)
         {
             lock (locker)
             {
@@ -735,7 +719,7 @@ namespace Modulir_Mass_Media.Classes
                 }
             }
         }
-        public ICommand RegistrationCommand => registrationCommand ??= new RelayCommand(obj =>
+        public static ICommand RegistrationCommand => registrationCommand ??= new RelayCommand(obj =>
         {
             var (objOne, objTwo) = obj as Tuple<object, object>;
             if (!(objOne is string login) || !(objTwo is string password)) return;
@@ -743,7 +727,7 @@ namespace Modulir_Mass_Media.Classes
             try
             {
                 sqlConnection.Open();
-                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(this, false, "Отсутствует подключение к базе данных");
+                if (sqlConnection.State != System.Data.ConnectionState.Open) AuthorizationAccepted?.Invoke(false, "Отсутствует подключение к базе данных");
                 else
                 {
                     SqlCommand command;
@@ -752,7 +736,7 @@ namespace Modulir_Mass_Media.Classes
                     int countСoincidences = (int)command.ExecuteScalar();
                     if (countСoincidences == 1)
                     {
-                        RegistrationAccepted.Invoke(this, false, "Такой логин уже существует");
+                        RegistrationAccepted.Invoke(false, "Такой логин уже существует");
                         sqlConnection.Close();
                         return;
                     }
@@ -760,42 +744,24 @@ namespace Modulir_Mass_Media.Classes
                     {
                         command = new SqlCommand($"Insert Into Client([Login], [Password]) values(N'{login}', N'{BCrypt.Net.BCrypt.HashPassword(password)}')", sqlConnection);
                         command.ExecuteNonQuery();
-                        RegistrationAccepted.Invoke(this, true, "Клиент успешно зарегистрирован");
+                        RegistrationAccepted.Invoke(true, "Клиент успешно зарегистрирован");
                         sqlConnection.Close();
                     }
                 }
             }
-            catch { RegistrationAccepted?.Invoke(this, false, "Ошибка работы с базой данных"); }
+            catch { RegistrationAccepted?.Invoke(false, "Ошибка работы с базой данных"); }
         }
         );
-        public ICommand PageClosingCommand => pageClosingCommand ??= new RelayCommand(obj =>
+        public static ICommand PageClosingCommand => pageClosingCommand ??= new RelayCommand(obj =>
         {
-            if (!(obj is EmotionCommandParametr parameters)) return; 
+            if (!(obj is EmotionCommandParametr parameters)) return;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            try
-            {
-                sqlConnection.Open();
-                SqlCommand command;
-                    switch (parameters.Type)
-                    {
-                        case InformationProductType.Text:
-                            {
-                                command = new SqlCommand($@"update Text set [Like] = {parameters.Like}, Wow = {parameters.Wow}, HaHa = {parameters.HaHa}, Sad = {parameters.Sad}, Angry = {parameters.Angry}, DisLike = {parameters.DisLike}  where [link] = N'{parameters.Link}'", sqlConnection);
-                                command.ExecuteNonQuery();
-                                sqlConnection.Close();
-                                break;
-                            }
-                        case InformationProductType.Video:
-                            {
-                            command = new SqlCommand($@"update Video set [Like] = {parameters.Like}, Wow = {parameters.Wow}, HaHa = {parameters.HaHa}, Sad = {parameters.Sad}, Angry = {parameters.Angry}, DisLike = {parameters.DisLike}  where [link] = N'{parameters.Link}'", sqlConnection);
-                            command.ExecuteNonQuery();
-                            sqlConnection.Close();
-                            break;
-                        }
-                    }
-            }
-            catch { }
+            EditLikeCommand?.Invoke(parameters.Like, parameters.Link);
+            EditHaHaCommand?.Invoke(parameters.HaHa, parameters.Link);
+            EditWowCommand?.Invoke(parameters.Wow, parameters.Link);
+            EditSadCommand?.Invoke(parameters.Sad, parameters.Link);
+            EditAngryCommand?.Invoke(parameters.Angry, parameters.Link);
+            EditDisLikeCommand?.Invoke(parameters.DisLike, parameters.Link);
         }
         );
     }

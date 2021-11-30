@@ -8,6 +8,7 @@
         MinHeight="518" 
         MinWidth="760" 
         WindowStartupLocation="CenterScreen" 
+        xmlns:vm ="clr-namespace:Modulir_Mass_Media.Classes"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -30,6 +31,9 @@
                             <ContentPresenter x:Name="contentPresenter" Margin="15 0 15 0" HorizontalAlignment="Center"  VerticalAlignment="Center" TextElement.FontSize="17"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                            </DataTrigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="#639DC3"/>
                             </Trigger>
@@ -179,6 +183,7 @@
                                 <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
                             <Border MaxHeight="70" Background="#F2F2F2" CornerRadius="5" Margin="0 0 10 0">
+                                
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -205,6 +210,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#00A1FB"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
@@ -235,6 +243,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#59CB38"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
@@ -265,6 +276,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#F9BA03"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
@@ -295,6 +309,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#684BAD"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
@@ -325,6 +342,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#F8412F"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>
@@ -355,6 +375,9 @@
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
+                                                            <Setter Property="Visibility" TargetName="border" Value="Collapsed"/>
+                                                        </DataTrigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" TargetName="border" Value="#D20909"/>
                                                             <Setter TargetName="Path" Property="Fill" Value="#FFFFFF"/>

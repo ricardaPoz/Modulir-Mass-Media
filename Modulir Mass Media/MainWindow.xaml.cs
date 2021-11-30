@@ -26,11 +26,7 @@ namespace Modulir_Mass_Media
         public MainWindow()
         {
             InitializeComponent();
-        }
 
-        public MainWindow(ViewModel viewModel) : this()
-        {
-            DataContext = viewModel;
         }
 
         #region Найстройка формы
@@ -46,17 +42,17 @@ namespace Modulir_Mass_Media
 
         private void unsubscribe_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).UnbscribedToMediaCommand.Execute(new Tuple<object>(clientSubscribedMedia.SelectedValue as MassMedia));
+            ViewModel.UnbscribedToMediaCommand.Execute(new Tuple<object>(clientSubscribedMedia.SelectedValue as MassMedia));
         }
 
         private void btnReadMore_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).ReadMoreCommand.Execute(new Tuple<object>(listViewAllMediaProduct.SelectedValue as MassMediaInformationProduct));
+            ViewModel.ReadMoreCommand.Execute(new Tuple<object>(listViewAllMediaProduct.SelectedValue as MassMediaInformationProduct));
         }
 
         private void btnReadNews_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).ReadMoreCommand.Execute(new Tuple<object>(listViewSubNews.SelectedValue as MassMediaInformationProduct));
+            ViewModel.ReadMoreCommand.Execute(new Tuple<object>(listViewSubNews.SelectedValue as MassMediaInformationProduct));
         }
     }
 

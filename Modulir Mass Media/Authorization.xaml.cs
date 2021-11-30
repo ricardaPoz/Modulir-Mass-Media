@@ -30,12 +30,12 @@ namespace Modulir_Mass_Media
             errorWrite.Visibility = Visibility.Visible;
             errorTextBlock.Text = messege;
         }
-        private void AuthorizationAccepted(object sender, bool authorizationAccepted, string message)
+        private void AuthorizationAccepted(bool authorizationAccepted, string message)
         {
             if (authorizationAccepted) DisplayNotification(Brushes.Green, message);
             else DisplayNotification(Brushes.Red, message);
         }
-        private void RegistrationAccepted(object sender, bool registrationAccepted, string message)
+        private void RegistrationAccepted(bool registrationAccepted, string message)
         {
             if (registrationAccepted) DisplayNotification(Brushes.Green, message);
             else DisplayNotification(Brushes.Red, message);
@@ -62,7 +62,7 @@ namespace Modulir_Mass_Media
                 borderPassword.BorderBrush = Brushes.Red;
                 return;
             }
-            else ((ViewModel)DataContext).AuthorizationCommand.Execute(new Tuple<object, object>(tbLogin.Text, pbPassword.Password));
+            else ViewModel.AuthorizationCommand.Execute(new Tuple<object, object>(tbLogin.Text, pbPassword.Password));
         }
         private void btnRegistration_Click(object sender, RoutedEventArgs e)
         {
@@ -72,24 +72,24 @@ namespace Modulir_Mass_Media
                 borderPassword.BorderBrush = Brushes.Red;
                 return;
             }
-            else ((ViewModel)DataContext).RegistrationCommand.Execute(new Tuple<object, object>(tbLogin.Text, pbPassword.Password));
+            else ViewModel.RegistrationCommand.Execute(new Tuple<object, object>(tbLogin.Text, pbPassword.Password));
         }
 
         public Authorization()
         {
             InitializeComponent();
-            ((ViewModel)DataContext).AuthorizationAccepted += AuthorizationAccepted;
-            ((ViewModel)DataContext).RegistrationAccepted += RegistrationAccepted;
+            ViewModel.AuthorizationAccepted += AuthorizationAccepted;
+            ViewModel.RegistrationAccepted += RegistrationAccepted;
         }
 
         private void btnSettingModelir_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).OpenConfigurationCommand.Execute(null);
+            ViewModel.OpenConfigurationCommand.Execute(null);
         }
 
         private void btnLoginNotAuthorization_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel)DataContext).LoginWthoutRegistration.Execute(null);
+            ViewModel.LoginWthoutRegistration.Execute(null);
         }
     }
 }
