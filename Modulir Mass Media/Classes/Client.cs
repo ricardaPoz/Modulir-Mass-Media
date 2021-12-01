@@ -11,32 +11,28 @@ namespace Modulir_Mass_Media.Classes
         public event Action<MassMediaInformationProduct> NewsReceivedBySubscription;
         public event Action<MassMedia> MediaUnSubscripted;
 
-        private List<MassMedia> medias = new List<MassMedia>();
-         
-        public string Login { get; }
-        public Client(string login, ViewModel viewModel)
+        public string Login { get; private set; }
+        public Client(string login)
         {
             Login = login;
-            viewModel.SubscribedToMedia += SubscribedToMedia;
-            viewModel.UnscribedToMedia += UnscribedToMedia;
+            ViewModel.SubscribedToMedia += SubscribedToMedia;
+            ViewModel.UnscribedToMedia += UnscribedToMedia;
         }
 
-        private void UnscribedToMedia(object sender, MassMedia e)
+        private void UnscribedToMedia(MassMedia media)
         {
-            medias.Remove(e);
-            MediaUnSubscripted?.Invoke(e);
-            e.ProductRelese -= Media_ProductRelese;
+            MediaUnSubscripted?.Invoke(media);
+            media.ProductRelese -= Media_ProductRelese;
         }
 
-        private void SubscribedToMedia(object sender, MassMedia media)
+        private void SubscribedToMedia(MassMedia media)
         {
-            medias.Add(media);
             media.ProductRelese += Media_ProductRelese;
         }
 
-        private void Media_ProductRelese(object sender, MassMediaReleaseInformationProductEventArgs e)
+        private void Media_ProductRelese(MassMediaInformationProduct mediaInformationProduct)
         {
-            NewsReceivedBySubscription?.Invoke(e.MassMediaInformationProduct);
+            NewsReceivedBySubscription?.Invoke(mediaInformationProduct);
         }
     }
 }

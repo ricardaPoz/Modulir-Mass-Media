@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -17,43 +14,32 @@ namespace Modulir_Mass_Media.Classes
     public enum TypeRssInfo
     {
         Text,
-        Audio,
         Video
     }
     public class RssParser
     {
         private Timer updateTimer = new Timer();
-
         private bool isWork = false;
-
-        public string LinkRss { get; set; } 
-        public TypeRssInfo TypeRss { get; set; }
-
-        public RssParser(string linkRss, TypeRssInfo typeRss)
+        public string LinkRss { get; private set; } 
+        public TypeRssInfo TypeRss { get; private set; }
+        public RssParser(string linkToRSS, TypeRssInfo typeRssInfo)
         {
-            LinkRss = linkRss;
-            TypeRss = typeRss;
+            LinkRss = linkToRSS;
+            TypeRss = typeRssInfo;
 
             updateTimer.AutoReset = true;
             updateTimer.Interval = 30000;
             updateTimer.Elapsed += UpdatePeriod;
-        }
 
-        public void StartParsing()
+            ViewModel.RssStart += RssStart;
+        }
+        private void RssStart(RssParser rssParser)
         {
             if (isWork) return;
             isWork = true;
             UpdateInfo();
             updateTimer.Start();
         }
-
-        public void StopParsing()
-        {
-            if (!isWork) return;
-            isWork = false;
-            updateTimer.Stop();
-        }
-
         private void UpdatePeriod(object sender, ElapsedEventArgs e) => UpdateInfo();
         private void UpdateInfo()
         {
@@ -62,7 +48,6 @@ namespace Modulir_Mass_Media.Classes
                     Task.Run(() => GetNews(LinkRss, TypeRss))
                 );
         }
-
         private void GetNews(string linkToRSS, TypeRssInfo typeRssInfo)
         {
             SqlConnection sqlConnection;
@@ -120,7 +105,6 @@ namespace Modulir_Mass_Media.Classes
                     }
                 }
                 sqlConnection.Close();
-                //ParseCompleted?.Invoke(this, new EventArgs());
             }
             catch (Exception exception) { MessageBox.Show($"{exception}");  }
         }

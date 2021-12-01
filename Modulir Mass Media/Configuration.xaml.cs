@@ -29,68 +29,67 @@ namespace Modulir_Mass_Media
         public Configuration()
         {
             InitializeComponent();
-        }
 
-        public Configuration(ViewModel viewModel) : this()
-        {
-            DataContext = viewModel;
-            viewModel.InitializationMedia.Execute(null);
-            viewModel.InitializationJournalist.Execute(null);
-            viewModel.InitializationRSS.Execute(null);
+            DataContext = ViewModel.JournalistsNotBusy;
 
-            viewModel.AddMediaAccepted += AddMediaAccepted;
-            viewModel.AddJournalistAccepted += AddJournalistAccepted;
-            viewModel.AddRSSAccepted += AddRSSAccepted;
-            viewModel.RecruitmentAccepted += RecruitmentAccepted;
-            viewModel.MediaSelectionAccepted += MediaSelectionAccepted;
-            viewModel.RemoveNotBussyAccepted += RemoveNotBussyAccepted;
-            viewModel.RemoveSMIAccepted += RemoveSMIAccepted;
-            viewModel.RemoveWorkingJournalistAccepted += RemoveWorkingJournalistAccepted;
-            viewModel.RemoveRSSAccepted += RemoveRSSAccepted;
+
+            ViewModel.InitializationMedia.Execute(null);
+            ViewModel.InitializationJournalist.Execute(null);
+            ViewModel.InitializationRSS.Execute(null);
+
+            ViewModel.AddMediaAccepted += AddMediaAccepted;
+            ViewModel.AddJournalistAccepted += AddJournalistAccepted;
+            ViewModel.AddRSSAccepted += AddRSSAccepted;
+            ViewModel.RecruitmentAccepted += RecruitmentAccepted;
+            ViewModel.MediaSelectionAccepted += MediaSelectionAccepted;
+            ViewModel.RemoveNotBussyAccepted += RemoveNotBussyAccepted;
+            ViewModel.RemoveSMIAccepted += RemoveSMIAccepted;
+            ViewModel.RemoveWorkingJournalistAccepted += RemoveWorkingJournalistAccepted;
+            ViewModel.RemoveRSSAccepted += RemoveRSSAccepted;
         }
 
         #region Accepted
-        private void RemoveRSSAccepted(object sender, bool removeRSSAccepted, string messege, ElementChanged elementChanged)
+        private void RemoveRSSAccepted(bool removeRSSAccepted, string messege, ElementChanged elementChanged)
         {
             if (removeRSSAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void RemoveWorkingJournalistAccepted(object sender, bool removeWorkingJournalistAccepted, string messege, ElementChanged elementChanged)
+        private void RemoveWorkingJournalistAccepted(bool removeWorkingJournalistAccepted, string messege, ElementChanged elementChanged)
         {
             if (removeWorkingJournalistAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void RemoveSMIAccepted(object sender, bool removeSMIAccepted, string messege, ElementChanged elementChanged)
+        private void RemoveSMIAccepted(bool removeSMIAccepted, string messege, ElementChanged elementChanged)
         {
             if (removeSMIAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void RemoveNotBussyAccepted(object sender, bool removeNotBussyAccepted, string messege, ElementChanged elementChanged)
+        private void RemoveNotBussyAccepted(bool removeNotBussyAccepted, string messege, ElementChanged elementChanged)
         {
             if (removeNotBussyAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void MediaSelectionAccepted(object sender, bool selectionAccepted, string messege, ElementChanged elementChanged)
+        private void MediaSelectionAccepted(bool selectionAccepted, string messege, ElementChanged elementChanged)
         {
             if (selectionAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void RecruitmentAccepted(object sender, bool recruitmentAccepted, string messege, ElementChanged elementChanged)
+        private void RecruitmentAccepted(bool recruitmentAccepted, string messege, ElementChanged elementChanged)
         {
             if (recruitmentAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void AddRSSAccepted(object sender, bool addRSSAccepted, string messege, ElementChanged elementChanged)
+        private void AddRSSAccepted(bool addRSSAccepted, string messege, ElementChanged elementChanged)
         {
             if (addRSSAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void AddJournalistAccepted(object sender, bool addJournalistAccepted, string messege, ElementChanged elementChanged)
+        private void AddJournalistAccepted(bool addJournalistAccepted, string messege, ElementChanged elementChanged)
         {
             if (addJournalistAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
         }
-        private void AddMediaAccepted(object sender, bool addMediaAccepted, string messege, ElementChanged elementChanged)
+        private void AddMediaAccepted(bool addMediaAccepted, string messege, ElementChanged elementChanged)
         {
             if (addMediaAccepted) DisplayNotification(Brushes.Green, messege, elementChanged);
             else DisplayNotification(Brushes.Red, messege, elementChanged);
@@ -249,19 +248,19 @@ namespace Modulir_Mass_Media
                 DisplayNotification(Brushes.Red, "Введите наименование СМИ", ElementChanged.AddMedia);
                 return;
             }
-            else ((ViewModel)DataContext).AddMediaCommand.Execute(new Tuple<object, object>(tbxNameMassMedia.Text, null));
+            else ViewModel.AddMediaCommand.Execute(new Tuple<object, object>(tbxNameMassMedia.Text, null));
         }
 
         private void btnAddJournalist_Click(object sender, RoutedEventArgs e)
         {
             ResetColor();
 
-            if (string.IsNullOrEmpty(tbxNameJournalist.Text) || cmbTypeJournalist.Text is null || !tbxPassportId.IsMaskFull)
+            if (string.IsNullOrEmpty(tbxNameJournalist.Text) || cmbTypeJournalist.SelectedIndex == -1 || !tbxPassportId.IsMaskFull)
             {
                 DisplayNotification(Brushes.Red, "Укажите тип журналиста, ФИО журналиста и его номер паспорта (номер паспорта должен быть заполнен полностью)", ElementChanged.AddJournalist);
                 return;
             }
-            else ((ViewModel)DataContext).AddJournalistCommand.Execute(new Tuple<object, object, object>(tbxNameJournalist.Text, tbxPassportId.Text, cmbTypeJournalist.Text));
+            else ViewModel.AddJournalistCommand.Execute(new Tuple<object, object, object>(tbxNameJournalist.Text, tbxPassportId.Text, cmbTypeJournalist.Text));
         }
 
         private void btnAddRSS_Click(object sender, RoutedEventArgs e)
@@ -270,10 +269,10 @@ namespace Modulir_Mass_Media
 
             if (string.IsNullOrEmpty(tbxNameRSS.Text) || cmbTypeRSS.SelectedItem is null)
             {
-                DisplayNotification(Brushes.Red, "Введите ссылку на RSS или выберите тип RSS)", ElementChanged.AddRSS);
+                DisplayNotification(Brushes.Red, "Введите ссылку на RSS или выберите тип RSS", ElementChanged.AddRSS);
                 return;
             }
-            else ((ViewModel)DataContext).AddRSSCommand.Execute(new Tuple<object, object>(tbxNameRSS.Text, (TypeRssInfo)Enum.Parse(typeof(TypeRssInfo) , cmbTypeRSS.Text == "Текст" ? "Text" : "Video")));
+            else ViewModel.AddRssCommand.Execute(new Tuple<object, object>(tbxNameRSS.Text, (TypeRssInfo)Enum.Parse(typeof(TypeRssInfo) , cmbTypeRSS.Text == "Текст" ? "Text" : "Video")));
 
         }
 
@@ -282,7 +281,7 @@ namespace Modulir_Mass_Media
             ResetColor();
 
             if (listViewSMI.SelectedValue as MassMedia is null) { return; }
-            else ((ViewModel)DataContext).MediaSelectionChanged.Execute(new Tuple<object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, null));
+            else ViewModel.MediaSelectionChanged.Execute(new Tuple<object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, null));
 
         }
 
@@ -302,7 +301,7 @@ namespace Modulir_Mass_Media
                 string nameJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).NameJournalist;
                 JournalistType typeJournalist = (listViewNotBusyJournalist.SelectedValue as Journalist).TypeJournalist;
 
-                ((ViewModel)DataContext).RecruitmentCommand.Execute(new Tuple<object, object, object, object, object>(nameMedia, passportJournalist, nameJournalist, typeJournalist, listViewNotBusyJournalist.SelectedValue as Journalist));
+                ViewModel.RecruitmentCommand.Execute(new Tuple<object, object, object, object, object>(nameMedia, passportJournalist, nameJournalist, typeJournalist, listViewNotBusyJournalist.SelectedValue as Journalist));
             }
         }
         #endregion
@@ -317,7 +316,7 @@ namespace Modulir_Mass_Media
                 DisplayNotification(Brushes.Red, "Для удаления необходимо выбрать журналиста", ElementChanged.RemoveJournalistNotBusy);
                 return;
             }
-            else ((ViewModel)DataContext).RemoveNotBussyJornalistCommand.Execute(new Tuple<object, object>((listViewNotBusyJournalist.SelectedValue as Journalist).PassportId, listViewNotBusyJournalist.SelectedValue as Journalist));
+            else ViewModel.RemoveNotBussyJornalistCommand.Execute(new Tuple<object, object>((listViewNotBusyJournalist.SelectedValue as Journalist).PassportId, listViewNotBusyJournalist.SelectedValue as Journalist));
         }
         private void btnRemoveSMI_Click(object sender, RoutedEventArgs e)
         {
@@ -328,7 +327,7 @@ namespace Modulir_Mass_Media
                 DisplayNotification(Brushes.Red, "Для удаления необходимо выбрать СМИ", ElementChanged.RemoveSMI);
                 return;
             }
-            else ((ViewModel)DataContext).RemoveSMICommand.Execute(new Tuple<object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, listViewSMI.SelectedValue as MassMedia));
+            else ViewModel.RemoveMediaCommand.Execute(new Tuple<object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, listViewSMI.SelectedValue as MassMedia));
         }
         private void btnRemoveWorkingJournalist_Click(object sender, RoutedEventArgs e)
         {
@@ -339,7 +338,7 @@ namespace Modulir_Mass_Media
                 DisplayNotification(Brushes.Red, "Для удаления необходимо выбрать Журналиста", ElementChanged.RemoveJournalistWorking);
                 return;
             }
-            else ((ViewModel)DataContext).RemoveWorkingJournalistCommand.Execute(new Tuple<object, object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, (listViewWorkingJournalist.SelectedValue as Journalist).PassportId, listViewWorkingJournalist.SelectedValue as Journalist));
+            else ViewModel.RemoveWorkingJournalistCommand.Execute(new Tuple<object, object, object>((listViewSMI.SelectedValue as MassMedia).NameMedia, (listViewWorkingJournalist.SelectedValue as Journalist).PassportId, listViewWorkingJournalist.SelectedValue as Journalist));
         }
         private void btnRemoveRSS_Click(object sender, RoutedEventArgs e)
         {
@@ -349,11 +348,9 @@ namespace Modulir_Mass_Media
                 
                 return;
             }
-            else ((ViewModel)DataContext).RemoveRSSCommand.Execute(new Tuple<object, object>((listViewRSS.SelectedValue as RssParser).LinkRss, listViewRSS.SelectedValue as RssParser));
+            else ViewModel.RemoveRssCommand.Execute(new Tuple<object, object>((listViewRSS.SelectedValue as RssParser).LinkRss, listViewRSS.SelectedValue as RssParser));
         }
         #endregion
-
-      
     }
 
 }

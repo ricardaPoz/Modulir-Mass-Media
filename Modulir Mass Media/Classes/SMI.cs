@@ -1,57 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Modulir_Mass_Media.Classes
 {
- 
-
-    public class MassMediaReleaseInformationProductEventArgs
-    {
-        public MassMediaInformationProduct MassMediaInformationProduct { get; private set; }
-        public MassMediaReleaseInformationProductEventArgs(MassMediaInformationProduct massMediaProduct) => MassMediaInformationProduct = massMediaProduct;
-    }
-
     public class MassMedia
     {
-        public delegate void MassMediaReleaseInformationProductHandler(object sender, MassMediaReleaseInformationProductEventArgs e);
-        public event MassMediaReleaseInformationProductHandler ProductRelese;
+        public event Action<MassMediaInformationProduct> ProductRelese;
 
         public string NameMedia { get; private set; }
-
-        //private string nameMassMedia;
-
-        public MassMedia(string nameMassMedia)
+        public MassMedia(string nameMedia)
         {
-            this.NameMedia = nameMassMedia;
+            NameMedia = nameMedia;
+            ViewModel.JournalistHired += JournalistHired;
         }
-        List<Journalist> listJournalist = new List<Journalist>(); // список журналистов, работающих на СМИ
-
-        // коллекция информационных продуктов СМИ
-        ObservableCollection<MassMediaInformationProduct> massMediaInformationProducts = new ObservableCollection<MassMediaInformationProduct>();
-
-        // Устройство на работу журналиста
-        public void HiringEmployee(Journalist journalist)
+        private void JournalistHired(MassMedia massMedia, Journalist journalist)
         {
-            listJournalist.Add(journalist);
-            journalist.InformationProductCreated += Journalist_InformationProductCreated;
-            journalist.Employment();
+            if(massMedia == this) journalist.InformationProductCreated += InformationProductCreated;
         }
-
-        // Увольнение с работы журналиста 
-        public void DismissalEmployee(Journalist journalist)
+        private void InformationProductCreated(InformationProduct informationProduct)
         {
-            listJournalist.Remove(journalist);
-            journalist.InformationProductCreated -= Journalist_InformationProductCreated;
-            journalist.Dismissal();
-        }
-
-        private void Journalist_InformationProductCreated(object sender, ProductCreatedEventArgs e)
-        {
-            MassMediaInformationProduct massMediaInformationProduct = new MassMediaInformationProduct(NameMedia, e.InformationProduct, DateTime.Now);
-            massMediaInformationProducts.Add(massMediaInformationProduct);
-            ProductRelese?.Invoke(this, new MassMediaReleaseInformationProductEventArgs(massMediaInformationProduct));
+            MassMediaInformationProduct massMediaInformationProduct = new MassMediaInformationProduct(NameMedia, informationProduct, DateTime.Now);
+            ProductRelese?.Invoke(massMediaInformationProduct);
         }
     }
 }

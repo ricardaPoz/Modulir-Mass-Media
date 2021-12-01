@@ -17,16 +17,10 @@ namespace Modulir_Mass_Media.Classes
         Text,
         Video
     }
-    public class ProductCreatedEventArgs
-    {
-        public InformationProduct InformationProduct { get; private set; }
-        public ProductCreatedEventArgs(InformationProduct informationProduct) => InformationProduct = informationProduct;
-    }
+
     public class Journalist
     {
-        public delegate void ProductCreatedtHendler(object sender, ProductCreatedEventArgs e);
-        public event ProductCreatedtHendler InformationProductCreated;
-
+        public event Action<InformationProduct> InformationProductCreated;
         public string PassportId { get; private set; }
         public string NameJournalist { get; private set; }
         public JournalistType TypeJournalist { get; private set; }
@@ -39,15 +33,22 @@ namespace Modulir_Mass_Media.Classes
             TypeJournalist = typeJournalist;
             PassportId = passportId;
 
+            ViewModel.JournalistHired += JournalistHired;
+
             creationTimer.AutoReset = true;
             Random workingTime = new Random();
             creationTimer.Interval = workingTime.Next(5000, 10000);
-            creationTimer.Elapsed += CreationTimer_Elapsed;
+            creationTimer.Elapsed += Elapsed;
+        }
+ 
+        private void JournalistHired(MassMedia massMedia, Journalist journalist)
+        {
+            if (journalist == this) Employment();
         }
 
-        private void CreationTimer_Elapsed(object sender, ElapsedEventArgs e) => CreateInformationProduct();
+        private void Elapsed(object sender, ElapsedEventArgs e) => CreateInformationProduct();
 
-        public void Employment()
+        private void Employment()
         {
             Task.Run
                (
@@ -55,7 +56,6 @@ namespace Modulir_Mass_Media.Classes
                );
         }
 
-        public void Dismissal() => creationTimer.Stop();
         private void StartWorking() => creationTimer.Start();
         private void CreateInformationProduct()
         {
@@ -110,11 +110,11 @@ namespace Modulir_Mass_Media.Classes
 
                 string category = (string)command.ExecuteScalar();
 
-                InformationProduct informationProduct = new InformationProduct(titleNews, string.Concat(ListInformationProduct.Select(e => e + "\n")), linkNews, category, InformationProductType.Text);
+                InformationProduct informationProduct = new InformationProduct(titleNews, string.Concat(ListInformationProduct.Select(e => e + "\n")), linkNews, category, InformationProductType.Text, 0, 0, 0, 0, 0, 0);
 
                 sqlConnection.Close();
 
-                InformationProductCreated?.Invoke(this, new ProductCreatedEventArgs(informationProduct));
+                InformationProductCreated?.Invoke(informationProduct);
             }
             else if (TypeJournalist == JournalistType.Video)
             {
@@ -140,14 +140,14 @@ namespace Modulir_Mass_Media.Classes
                 string category = (string)command.ExecuteScalar();
 
 
-                InformationProduct informationProduct = new InformationProduct(titleNews, contentNews, linkNews, category, InformationProductType.Video);
+                InformationProduct informationProduct = new InformationProduct(titleNews, contentNews, linkNews, category, InformationProductType.Video, 0, 0, 0, 0, 0, 0);
                 command = new SqlCommand($@"update [Video] set [take] = 1 where [id] = {idNews}", sqlConnection);
                 command.ExecuteNonQuery();
                 sqlConnection.Close();
 
-                InformationProductCreated?.Invoke(this, new ProductCreatedEventArgs(informationProduct));
+                InformationProductCreated?.Invoke(informationProduct);
             }
         }
     }
-   
+
 }

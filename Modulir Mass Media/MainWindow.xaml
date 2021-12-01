@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Modulir_Mass_Media" 
         xmlns:local1="clr-namespace:Modulir_Mass_Media.Classes" 
         xmlns:local2="clr-namespace:Modulir_Mass_Media.Helpers"
+        xmlns:vm ="clr-namespace:Modulir_Mass_Media.Classes"
         mc:Ignorable="d"
         MinHeight="700" 
         MinWidth="1200" 
@@ -23,9 +24,11 @@
     <Window.Resources>
         <local2:IsNullConverter x:Key="nullConverter"/>
         <Style x:Key="TabItemStyleSub" TargetType="{x:Type TabItem}">
+            <Setter Property="DataContext" Value="{x:Static vm:ViewModel.Client}"/>
+            <Setter Property="Visibility" Value="Visible"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
+                    <ControlTemplate TargetType="{x:Type TabItem}" >
                         <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Margin="2 0 0 0">
                             <Border x:Name="mainBorder" Background="#464650"  Margin="0">
                                 <Border x:Name="innerBorder" Background="#242730"  Margin="-1" Opacity="0"/>
@@ -33,7 +36,7 @@
                             <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <DataTrigger Binding="{Binding Client, Converter={StaticResource nullConverter}}" Value="True">
+                            <DataTrigger Binding="{Binding ViewModel.Client}" Value="{x:Static vm:ViewModel.Client}">
                                 <Setter Property="Visibility" TargetName="templateRoot" Value="Collapsed"/>
                             </DataTrigger>
                             <MultiDataTrigger>
@@ -242,7 +245,7 @@
                     TabStripPlacement="Top" 
                     BorderThickness="0"
                     >
-                    <TabItem Style="{DynamicResource TabItemStyle}">
+                    <TabItem Style="{DynamicResource TabItemStyle}" >
                         <TabItem.Header>
                             <TextBlock 
                                 Foreground="#8E8E95" 
@@ -268,8 +271,9 @@
                                                 Background="#F5F5F5" 
                                                 HorizontalContentAlignment="Stretch" 
                                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                                ItemsSource="{Binding MediaProduct}" 
-                                                                                    >
+                                                ItemsSource="{Binding}"
+                                                DataContext="{x:Static vm:ViewModel.MediaProduct}"
+                                                >
                                                 <ListBox.ItemTemplate >
                                                     <DataTemplate>
                                                         <Border x:Name="borderItemList" BorderThickness="1" BorderBrush="#D8D8D8" Background="White" CornerRadius="10" Margin="0 10 10 0">
@@ -315,7 +319,7 @@
                                                                                 <Viewbox HorizontalAlignment="Center">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Text="{Binding InformationProduct.Like}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                             <Grid Grid.Column="1">
                                                                                 <Grid.ColumnDefinitions>
@@ -325,7 +329,7 @@
                                                                                 <Viewbox HorizontalAlignment="Left">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" Text="{Binding InformationProduct.HaHa}" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                             <Grid Grid.Column="2">
                                                                                 <Grid.ColumnDefinitions>
@@ -335,7 +339,7 @@
                                                                                 <Viewbox HorizontalAlignment="Left">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                                <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Wow}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                             <Grid Grid.Column="3">
                                                                                 <Grid.ColumnDefinitions>
@@ -345,7 +349,7 @@
                                                                                 <Viewbox HorizontalAlignment="Left">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                                <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Sad}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                             <Grid Grid.Column="4">
                                                                                 <Grid.ColumnDefinitions>
@@ -355,7 +359,7 @@
                                                                                 <Viewbox HorizontalAlignment="Left">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                                <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Angry}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                             <Grid Grid.Column="5">
                                                                                 <Grid.ColumnDefinitions>
@@ -365,7 +369,7 @@
                                                                                 <Viewbox HorizontalAlignment="Left">
                                                                                     <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
                                                                                 </Viewbox>
-                                                                                <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                                <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.DisLike}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                             </Grid>
                                                                         </Grid>
                                                                     </Grid>
@@ -411,7 +415,8 @@
                                                 Background="#F5F5F5" 
                                                 HorizontalContentAlignment="Stretch" 
                                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                                ItemsSource="{Binding MediaProductBySubscription}"
+                                                ItemsSource="{Binding}"
+                                                DataContext="{x:Static vm:ViewModel.MediaProductBySubscription}"
                                                 Margin="3"
                                                 >
                                             <ListBox.ItemTemplate >
@@ -459,7 +464,7 @@
                                                                             <Viewbox HorizontalAlignment="Center">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Like}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Text="{Binding InformationProduct.Like}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                         <Grid Grid.Column="1">
                                                                             <Grid.ColumnDefinitions>
@@ -469,7 +474,7 @@
                                                                             <Viewbox HorizontalAlignment="Left">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource HaHa}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" Text="{Binding InformationProduct.HaHa}" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                         <Grid Grid.Column="2">
                                                                             <Grid.ColumnDefinitions>
@@ -479,7 +484,7 @@
                                                                             <Viewbox HorizontalAlignment="Left">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Wow}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Wow}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                         <Grid Grid.Column="3">
                                                                             <Grid.ColumnDefinitions>
@@ -489,7 +494,7 @@
                                                                             <Viewbox HorizontalAlignment="Left">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Sad}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Sad}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                         <Grid Grid.Column="4">
                                                                             <Grid.ColumnDefinitions>
@@ -499,7 +504,7 @@
                                                                             <Viewbox HorizontalAlignment="Left">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource Angry}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.Angry}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                         <Grid Grid.Column="5">
                                                                             <Grid.ColumnDefinitions>
@@ -509,7 +514,7 @@
                                                                             <Viewbox HorizontalAlignment="Left">
                                                                                 <Path Margin="0 -6.4 0 0"  Style="{DynamicResource DisLike}"/>
                                                                             </Viewbox>
-                                                                            <TextBlock Margin="10 0 0 0"  Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">1</TextBlock>
+                                                                            <TextBlock Margin="10 0 0 0" Text="{Binding InformationProduct.DisLike}" Foreground="#8B8B8B" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                                                         </Grid>
                                                                     </Grid>
                                                                 </Grid>
@@ -540,7 +545,8 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   Background="#F5F5F5"
                                                   ItemContainerStyle="{DynamicResource ListBoxItemSubsribed}"
-                                                  ItemsSource="{Binding SubscriptionMassMedia}"
+                                                  ItemsSource="{Binding}"
+                                                  DataContext="{x:Static vm:ViewModel.SubscriptionMassMedia}"
                                                   >
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
